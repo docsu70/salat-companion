@@ -14,7 +14,7 @@ export default function Header() {
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
               </svg>
             </div>
-            <h1 className="text-base font-semibold text-gray-900">اختيار عشوائي</h1>
+            <h1 className="text-base font-semibold text-gray-900">رفيق الصلاة</h1>
           </div>
           <nav className="flex space-x-1 space-x-reverse">
             <Link href="/">
