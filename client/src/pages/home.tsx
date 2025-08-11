@@ -57,66 +57,81 @@ export default function Home() {
   }
 
   return (
-    <div className="space-y-4" dir="rtl">
-      <div className="text-center mb-4">
-        <h2 className="text-lg font-bold text-gray-900 mb-2">اختيار سور وآيات</h2>
-        <p className="text-gray-600 text-sm">اضغط الزر لاختيار سور/آيات</p>
-      </div>
-      {/* Generate Button */}
-      <div className="text-center mb-6">
-        <Button 
-          onClick={handleGenerate}
-          disabled={generateMutation.isPending}
-          className="bg-primary hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md text-sm w-full max-w-xs"
-        >
-          {generateMutation.isPending ? (
-            <>
-              <Loader2 className="ml-2 h-4 w-4 animate-spin" />
-              جاري الإنشاء...
-            </>
-          ) : (
-            <>
-              <Dice1 className="ml-2 h-4 w-4" />
-              إنشاء اختيارات
-            </>
-          )}
-        </Button>
-      </div>
-      {/* Results Display */}
-      <div className="space-y-3">
-        {/* List 1 Result */}
-        <Card className="shadow-sm border border-gray-200">
-          <CardContent className="p-4 text-center">
-            <div className="bg-blue-50 rounded-full p-2 w-8 h-8 mx-auto mb-2 flex items-center justify-center">
-              <ListOrdered className="text-primary text-sm" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 p-4" dir="rtl">
+      <div className="max-w-md mx-auto">
+        {/* Header Card */}
+        <Card className="mb-6 shadow-lg border-0 bg-white/80 backdrop-blur">
+          <CardContent className="p-6 text-center">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+              <Dice1 className="text-white text-xl" />
             </div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-2">سور/آيات قصيرة</h3>
-            <div className="min-h-[40px] flex items-center justify-center">
-              {selections?.list1 ? (
-                <div className="text-base font-bold text-primary px-2 py-1 bg-blue-50 rounded">{selections.list1}</div>
+            <h1 className="text-xl font-bold text-gray-900 mb-2">اختيار سور وآيات</h1>
+            <p className="text-gray-600 text-sm mb-6">اختر آيات وسور للمراجعة والحفظ</p>
+            
+            <Button 
+              onClick={handleGenerate}
+              disabled={generateMutation.isPending}
+              className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg text-base w-full"
+            >
+              {generateMutation.isPending ? (
+                <>
+                  <Loader2 className="ml-2 h-5 w-5 animate-spin" />
+                  جاري الاختيار...
+                </>
               ) : (
-                <div className="text-gray-400 text-xs">لا يوجد اختيار بعد</div>
+                <>
+                  <Dice1 className="ml-2 h-5 w-5" />
+                  ابدأ الاختيار
+                </>
               )}
-            </div>
+            </Button>
           </CardContent>
         </Card>
 
-        {/* List 2 Result */}
-        <Card className="shadow-sm border border-gray-200">
-          <CardContent className="p-4 text-center">
-            <div className="bg-green-50 rounded-full p-2 w-8 h-8 mx-auto mb-2 flex items-center justify-center">
-              <ListIcon className="text-success text-sm" />
+        {/* Results Grid */}
+        <div className="grid grid-cols-1 gap-4">
+          {/* Short Verses Result */}
+          <Card className="shadow-lg border-0 bg-white/90 backdrop-blur overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3">
+              <div className="flex items-center justify-center text-white">
+                <ListOrdered className="ml-2 h-5 w-5" />
+                <h3 className="font-semibold">سور/آيات قصيرة</h3>
+              </div>
             </div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-2">سور/آيات طويلة</h3>
-            <div className="min-h-[40px] flex items-center justify-center">
-              {selections?.list2 ? (
-                <div className="text-base font-bold text-success px-2 py-1 bg-green-50 rounded">{selections.list2}</div>
-              ) : (
-                <div className="text-gray-400 text-xs">لا يوجد اختيار بعد</div>
-              )}
+            <CardContent className="p-6">
+              <div className="min-h-[60px] flex items-center justify-center">
+                {selections?.list1 ? (
+                  <div className="text-lg font-bold text-blue-700 bg-blue-50 px-4 py-3 rounded-xl border-2 border-blue-200 text-center w-full">
+                    {selections.list1}
+                  </div>
+                ) : (
+                  <div className="text-gray-400 text-sm">لا يوجد اختيار بعد</div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Long Verses Result */}
+          <Card className="shadow-lg border-0 bg-white/90 backdrop-blur overflow-hidden">
+            <div className="bg-gradient-to-r from-green-500 to-green-600 p-3">
+              <div className="flex items-center justify-center text-white">
+                <ListIcon className="ml-2 h-5 w-5" />
+                <h3 className="font-semibold">سور/آيات طويلة</h3>
+              </div>
             </div>
-          </CardContent>
-        </Card>
+            <CardContent className="p-6">
+              <div className="min-h-[60px] flex items-center justify-center">
+                {selections?.list2 ? (
+                  <div className="text-lg font-bold text-green-700 bg-green-50 px-4 py-3 rounded-xl border-2 border-green-200 text-center w-full">
+                    {selections.list2}
+                  </div>
+                ) : (
+                  <div className="text-gray-400 text-sm">لا يوجد اختيار بعد</div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
