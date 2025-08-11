@@ -103,7 +103,7 @@ export default function Home() {
           <CardContent className="p-4 text-center bg-[#d3ded8]">
             
             <h3 className="text-sm font-semibold text-gray-900 mb-2">سور/آيات طويلة</h3>
-            <div className="min-h-[40px] flex items-center justify-center">
+            <div className="min-h-[40px] flex items-center justify-center bg-[white] text-[black]">
               {selections?.list2 ? (
                 <div className="text-base font-bold text-success px-2 py-1 bg-green-50 rounded">{selections.list2}</div>
               ) : (
