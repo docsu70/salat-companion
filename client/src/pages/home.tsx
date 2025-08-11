@@ -59,10 +59,9 @@ export default function Home() {
   return (
     <div className="space-y-4" dir="rtl">
       <div className="text-center mb-4">
-        <h2 className="text-lg font-bold text-gray-900 mb-2">إنشاء اختيارات عشوائية</h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-2">اختيار سور وآيات</h2>
         <p className="text-gray-600 text-sm">اضغط على الزر للاختيار من قوائمك</p>
       </div>
-
       {/* Generate Button */}
       <div className="text-center mb-6">
         <Button 
@@ -83,7 +82,6 @@ export default function Home() {
           )}
         </Button>
       </div>
-
       {/* Results Display */}
       <div className="space-y-3">
         {/* List 1 Result */}
@@ -120,8 +118,6 @@ export default function Home() {
           </CardContent>
         </Card>
       </div>
-
-
     </div>
   );
 }
