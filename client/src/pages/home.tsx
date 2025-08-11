@@ -92,7 +92,7 @@ export default function Home() {
             <div className="bg-blue-50 rounded-full p-2 w-8 h-8 mx-auto mb-2 flex items-center justify-center">
               <ListOrdered className="text-primary text-sm" />
             </div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-2">القائمة الأولى</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-2">سور/آيات قصيرة</h3>
             <div className="min-h-[40px] flex items-center justify-center">
               {selections?.list1 ? (
                 <div className="text-base font-bold text-primary px-2 py-1 bg-blue-50 rounded">{selections.list1}</div>
@@ -109,7 +109,7 @@ export default function Home() {
             <div className="bg-green-50 rounded-full p-2 w-8 h-8 mx-auto mb-2 flex items-center justify-center">
               <ListIcon className="text-success text-sm" />
             </div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-2">القائمة الثانية</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-2">سور/آيات طويلة</h3>
             <div className="min-h-[40px] flex items-center justify-center">
               {selections?.list2 ? (
                 <div className="text-base font-bold text-success px-2 py-1 bg-green-50 rounded">{selections.list2}</div>
