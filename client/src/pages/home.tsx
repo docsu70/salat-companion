@@ -35,7 +35,7 @@ export default function Home() {
     onError: (error: Error) => {
       toast({
         title: "فشل في الإنشاء",
-        description: error.message || "فشل في إنشاء الاختيارات. تأكد من أن كلا القائمتين تحتوي على عناصر.",
+        description: error.message || "حدث خطأ",
         variant: "destructive",
       });
     },

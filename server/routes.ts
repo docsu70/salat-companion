@@ -125,7 +125,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       if (list1.items.length === 0 || list2.items.length === 0) {
-        return res.status(400).json({ message: "Both lists must contain at least one item" });
+        return res.status(400).json({ message: "حدث خطأ" });
       }
 
       const list1Selection = list1.items[Math.floor(Math.random() * list1.items.length)];
