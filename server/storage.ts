@@ -19,13 +19,13 @@ export class MemStorage implements IStorage {
     // Initialize with two default lists
     const list1: SelectionList = {
       id: "list-1",
-      name: "List 1",
+      name: "سور/آيات قصيرة",
       items: []
     };
     
     const list2: SelectionList = {
       id: "list-2", 
-      name: "List 2",
+      name: "سور/آيات طويلة",
       items: []
     };
     

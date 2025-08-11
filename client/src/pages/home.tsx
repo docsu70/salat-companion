@@ -41,8 +41,8 @@ export default function Home() {
     },
   });
 
-  const list1 = lists.find(l => l.name === "List 1");
-  const list2 = lists.find(l => l.name === "List 2");
+  const list1 = lists.find(l => l.name === "سور/آيات قصيرة");
+  const list2 = lists.find(l => l.name === "سور/آيات طويلة");
 
   const handleGenerate = () => {
     generateMutation.mutate();

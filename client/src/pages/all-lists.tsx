@@ -104,15 +104,15 @@ export default function AllLists() {
   };
 
   const getListIcon = (listName: string) => {
-    if (listName === "List 1") return <ListOrdered className="w-4 h-4" />;
-    if (listName === "List 2") return <ListIcon className="w-4 h-4" />;
+    if (listName === "سور/آيات قصيرة") return <ListOrdered className="w-4 h-4" />;
+    if (listName === "سور/آيات طويلة") return <ListIcon className="w-4 h-4" />;
     if (listName === "أيات مقترحة للحفظ") return <BookOpen className="w-4 h-4" />;
     return <ListIcon className="w-4 h-4" />;
   };
 
   const getListColor = (listName: string) => {
-    if (listName === "List 1") return "blue";
-    if (listName === "List 2") return "green";
+    if (listName === "سور/آيات قصيرة") return "blue";
+    if (listName === "سور/آيات طويلة") return "green";
     if (listName === "أيات مقترحة للحفظ") return "purple";
     return "gray";
   };
@@ -174,7 +174,7 @@ export default function AllLists() {
                     <div>
                       <h3 className="text-sm font-semibold text-gray-900">إدارة العناصر</h3>
                       <p className="text-xs text-gray-500">
-                        {list.items.length} {list.name === "أيات مقترحة للحفظ" ? "آية" : "عنصر"}
+                        {list.items.length} {list.name === "أيات مقترحة للحفظ" ? "آية" : "سورة/آية"}
                       </p>
                     </div>
                   </div>
@@ -189,6 +189,10 @@ export default function AllLists() {
                       placeholder={
                         list.name === "أيات مقترحة للحفظ" 
                           ? "أضف آية للحفظ..." 
+                          : list.name === "سور/آيات قصيرة"
+                          ? "أضف سورة أو آية قصيرة..."
+                          : list.name === "سور/آيات طويلة"
+                          ? "أضف سورة أو آية طويلة..."
                           : "أضف عنصر جديد..."
                       }
                       className="flex-1 text-sm"

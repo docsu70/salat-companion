@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a mobile-first web application that allows users to manage and randomly select items from multiple lists. The app provides a clean, compact interface optimized for mobile devices with Arabic language support and RTL (right-to-left) layout. Users can manage List 1, List 2, and "أيات مقترحة للحفظ" (Suggested verses for memorization) through a unified tabbed interface, and generate random selections from all lists simultaneously on the home page. Built with a modern React frontend and Express.js backend, it uses in-memory storage for fast data access and follows a type-safe development approach with TypeScript throughout.
+This is a mobile-first web application that allows users to manage and randomly select items from multiple lists. The app provides a clean, compact interface optimized for mobile devices with Arabic language support and RTL (right-to-left) layout. Users can manage "سور/آيات قصيرة" (Short surahs/verses), "سور/آيات طويلة" (Long surahs/verses), and "أيات مقترحة للحفظ" (Suggested verses for memorization) through a unified tabbed interface, and generate random selections from all lists simultaneously on the home page. Built with a modern React frontend and Express.js backend, it uses in-memory storage for fast data access and follows a type-safe development approach with TypeScript throughout.
 
 ## User Preferences
 
@@ -20,15 +20,16 @@ Language: Arabic with RTL (right-to-left) layout
 ### List Management Enhancement
 - Created unified tabbed interface for managing all lists in one page
 - Added third list: "أيات مقترحة للحفظ" (Suggested verses for memorization)
-- Each list has distinct color coding: List 1 (blue), List 2 (green), Verses (purple)
+- Each list has distinct color coding: Short verses (blue), Long verses (green), Suggested verses (purple)
 - Removed individual list overview from home page for cleaner interface
 - Home page now focuses solely on random selection functionality
 
 ### Technical Implementation
-- Backend storage updated to support three default lists
+- Backend storage updated to support three default lists with Arabic names
 - All user interface text converted to Arabic
 - Toast notifications and confirmation dialogs localized
 - Maintained mobile-first responsive design throughout changes
+- List names updated to "سور/آيات قصيرة", "سور/آيات طويلة", and "أيات مقترحة للحفظ"
 
 ## System Architecture
 
