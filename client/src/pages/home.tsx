@@ -121,28 +121,7 @@ export default function Home() {
         </Card>
       </div>
 
-      {/* Quick Stats */}
-      <Card className="mt-6 shadow-sm border border-gray-200">
-        <CardContent className="p-4">
-          <h4 className="text-sm font-semibold text-gray-900 mb-3">قوائمك</h4>
-          <div className="flex justify-around">
-            <div className="text-center">
-              <div className="bg-blue-100 rounded-lg p-2 inline-block mb-1">
-                <ListOrdered className="text-primary w-3 h-3" />
-              </div>
-              <p className="text-xs text-gray-600">القائمة الأولى</p>
-              <p className="text-lg font-bold text-gray-900">{list1?.items.length || 0}</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-green-100 rounded-lg p-2 inline-block mb-1">
-                <ListIcon className="text-success w-3 h-3" />
-              </div>
-              <p className="text-xs text-gray-600">القائمة الثانية</p>
-              <p className="text-lg font-bold text-gray-900">{list2?.items.length || 0}</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+
     </div>
   );
 }

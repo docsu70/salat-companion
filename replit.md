@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a mobile-first web application that allows users to manage and randomly select items from two lists. The app provides a clean, compact interface optimized for mobile devices for adding/removing items from "List 1" and "List 2", and generates random selections from both lists simultaneously. Built with a modern React frontend and Express.js backend, it uses in-memory storage for fast data access and follows a type-safe development approach with TypeScript throughout.
+This is a mobile-first web application that allows users to manage and randomly select items from two lists. The app provides a clean, compact interface optimized for mobile devices with Arabic language support and RTL (right-to-left) layout. Users can manage List 1 and List 2 separately through dedicated pages, and generate random selections from both lists simultaneously on the home page. Built with a modern React frontend and Express.js backend, it uses in-memory storage for fast data access and follows a type-safe development approach with TypeScript throughout.
 
 ## User Preferences
 
@@ -48,3 +48,5 @@ Language: Arabic with RTL (right-to-left) layout
 - **Component Composition**: Reusable UI components with consistent design system
 - **Error Boundaries**: Proper error handling and user feedback mechanisms
 - **Responsive Design**: Mobile-first responsive layouts with Tailwind utilities
+- **Internationalization**: Arabic language support with RTL layout using CSS direction properties
+- **Page Organization**: Dedicated pages for each list management with focused functionality

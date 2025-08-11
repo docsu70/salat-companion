@@ -5,7 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from "@/components/header";
 import Home from "@/pages/home";
-import Lists from "@/pages/lists";
+import List1 from "@/pages/list1";
+import List2 from "@/pages/list2";
 import LoadingOverlay from "@/components/loading-overlay";
 import NotFound from "@/pages/not-found";
 
@@ -16,7 +17,8 @@ function Router() {
       <main className="px-3 py-4">
         <Switch>
           <Route path="/" component={Home} />
-          <Route path="/lists" component={Lists} />
+          <Route path="/list1" component={List1} />
+          <Route path="/list2" component={List2} />
           <Route component={NotFound} />
         </Switch>
       </main>
