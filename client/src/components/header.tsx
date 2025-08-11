@@ -1,8 +1,33 @@
 import { Link, useLocation } from "wouter";
-import { Home, List, ListOrdered } from "lucide-react";
+import { Home, List, Menu, X } from "lucide-react";
+import { useState } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 export default function Header() {
   const [location] = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navigationItems = [
+    {
+      href: "/",
+      icon: Home,
+      label: "الرئيسية",
+      description: "صفحة الاختيار العشوائي"
+    },
+    {
+      href: "/lists",
+      icon: List,
+      label: "القوائم",
+      description: "إدارة قوائم السور والآيات"
+    }
+  ];
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
@@ -16,24 +41,82 @@ export default function Header() {
             </div>
             <h1 className="text-base font-semibold text-gray-900">رفيق الصلاة</h1>
           </div>
-          <nav className="flex space-x-1 space-x-reverse">
-            <Link href="/">
-              <button className={`nav-tab px-3 py-2 rounded-md font-medium text-xs transition-colors flex items-center ${
-                location === "/" ? "active" : ""
-              }`}>
-                <Home className="w-3 h-3 ml-1" />
-                الرئيسية
-              </button>
-            </Link>
-            <Link href="/lists">
-              <button className={`nav-tab px-3 py-2 rounded-md font-medium text-xs transition-colors flex items-center ${
-                location === "/lists" ? "active" : ""
-              }`}>
-                <List className="w-3 h-3 ml-1" />
-                القوائم
-              </button>
-            </Link>
-          </nav>
+          
+          {/* Hamburger Menu Button */}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="p-2 hover:bg-gray-100"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            
+            <SheetContent side="right" className="w-72" dir="rtl">
+              <SheetHeader className="text-right">
+                <SheetTitle className="text-lg font-bold text-gray-900">
+                  القائمة الرئيسية
+                </SheetTitle>
+              </SheetHeader>
+              
+              <div className="mt-6 space-y-3">
+                {navigationItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = location === item.href;
+                  
+                  return (
+                    <Link 
+                      key={item.href} 
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <div className={`flex items-center space-x-3 space-x-reverse p-3 rounded-lg transition-colors cursor-pointer ${
+                        isActive 
+                          ? "bg-blue-50 text-blue-700 border border-blue-200" 
+                          : "hover:bg-gray-50 text-gray-700"
+                      }`}>
+                        <div className={`p-2 rounded-full ${
+                          isActive ? "bg-blue-100" : "bg-gray-100"
+                        }`}>
+                          <Icon className={`h-4 w-4 ${
+                            isActive ? "text-blue-600" : "text-gray-600"
+                          }`} />
+                        </div>
+                        <div className="flex-1">
+                          <div className={`font-medium text-sm ${
+                            isActive ? "text-blue-900" : "text-gray-900"
+                          }`}>
+                            {item.label}
+                          </div>
+                          <div className={`text-xs ${
+                            isActive ? "text-blue-600" : "text-gray-500"
+                          }`}>
+                            {item.description}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+              
+              {/* Footer info */}
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-4 border border-gray-200">
+                  <div className="text-center">
+                    <div className="text-sm font-semibold text-gray-900 mb-1">
+                      تطبيق اختيار السور والآيات
+                    </div>
+                    <div className="text-xs text-gray-600">
+                      للمساعدة في الحفظ والمراجعة اليومية
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>
