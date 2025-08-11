@@ -117,8 +117,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/generate-selections", async (_req, res) => {
     try {
       const lists = await storage.getAllSelectionLists();
-      const list1 = lists.find(l => l.name === "List 1");
-      const list2 = lists.find(l => l.name === "List 2");
+      const list1 = lists.find(l => l.name === "سور/آيات قصيرة");
+      const list2 = lists.find(l => l.name === "سور/آيات طويلة");
 
       if (!list1 || !list2) {
         return res.status(404).json({ message: "Required lists not found" });
