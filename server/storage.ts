@@ -1,5 +1,7 @@
-import { type SelectionList, type InsertSelectionList, type UpdateSelectionList } from "@shared/schema";
+import { type SelectionList, type InsertSelectionList, type UpdateSelectionList, selectionLists } from "@shared/schema";
 import { randomUUID } from "crypto";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   getSelectionList(id: string): Promise<SelectionList | undefined>;
@@ -10,79 +12,72 @@ export interface IStorage {
   deleteSelectionList(id: string): Promise<boolean>;
 }
 
-export class MemStorage implements IStorage {
-  private lists: Map<string, SelectionList>;
-
-  constructor() {
-    this.lists = new Map();
-    
-    // Initialize with two default lists
-    const list1: SelectionList = {
-      id: "list-1",
-      name: "سور/آيات قصيرة",
-      items: []
-    };
-    
-    const list2: SelectionList = {
-      id: "list-2", 
-      name: "سور/آيات طويلة",
-      items: []
-    };
-    
-    const list3: SelectionList = {
-      id: "list-3",
-      name: "أيات مقترحة للحفظ",
-      items: []
-    };
-    
-    this.lists.set(list1.id, list1);
-    this.lists.set(list2.id, list2);
-    this.lists.set(list3.id, list3);
+export class DatabaseStorage implements IStorage {
+  async initializeDefaultLists() {
+    try {
+      // Check if we already have the default lists
+      const existingLists = await db.select().from(selectionLists);
+      
+      if (existingLists.length === 0) {
+        // Create the three default lists
+        const defaultLists = [
+          { name: "سور/آيات قصيرة", items: [] },
+          { name: "سور/آيات طويلة", items: [] },
+          { name: "أيات مقترحة للحفظ", items: [] }
+        ];
+        
+        for (const list of defaultLists) {
+          await db.insert(selectionLists).values(list);
+        }
+      }
+    } catch (error) {
+      console.error("Error initializing default lists:", error);
+    }
   }
 
   async getSelectionList(id: string): Promise<SelectionList | undefined> {
-    return this.lists.get(id);
+    const [list] = await db.select().from(selectionLists).where(eq(selectionLists.id, id));
+    return list || undefined;
   }
 
   async getSelectionListByName(name: string): Promise<SelectionList | undefined> {
-    return Array.from(this.lists.values()).find(
-      (list) => list.name === name,
-    );
+    const [list] = await db.select().from(selectionLists).where(eq(selectionLists.name, name));
+    return list || undefined;
   }
 
   async getAllSelectionLists(): Promise<SelectionList[]> {
-    return Array.from(this.lists.values());
+    return await db.select().from(selectionLists);
   }
 
   async createSelectionList(insertList: InsertSelectionList): Promise<SelectionList> {
-    const id = randomUUID();
-    const list: SelectionList = { 
-      id, 
-      name: insertList.name, 
-      items: insertList.items || [] 
-    };
-    this.lists.set(id, list);
+    const [list] = await db
+      .insert(selectionLists)
+      .values(insertList)
+      .returning();
     return list;
   }
 
   async updateSelectionList(id: string, updates: UpdateSelectionList): Promise<SelectionList | undefined> {
-    const existingList = this.lists.get(id);
-    if (!existingList) {
-      return undefined;
-    }
-    
-    const updatedList: SelectionList = { 
-      ...existingList, 
-      ...(updates.name && { name: updates.name }),
-      ...(updates.items && { items: updates.items })
-    };
-    this.lists.set(id, updatedList);
-    return updatedList;
+    const [list] = await db
+      .update(selectionLists)
+      .set(updates)
+      .where(eq(selectionLists.id, id))
+      .returning();
+    return list || undefined;
   }
 
   async deleteSelectionList(id: string): Promise<boolean> {
-    return this.lists.delete(id);
+    const result = await db
+      .delete(selectionLists)
+      .where(eq(selectionLists.id, id));
+    return result.rowCount > 0;
   }
 }
 
-export const storage = new MemStorage();
+// Create and initialize the database storage instance
+const databaseStorage = new DatabaseStorage();
+
+// Initialize the database with default lists on startup
+databaseStorage.initializeDefaultLists().catch(console.error);
+
+export const storage = databaseStorage;
