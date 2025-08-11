@@ -28,14 +28,14 @@ export default function Home() {
     onSuccess: (data) => {
       setSelections(data);
       toast({
-        title: "Selections Generated!",
-        description: "New random selections have been generated from your lists.",
+        title: "تم إنشاء الاختيارات!",
+        description: "تم إنشاء اختيارات عشوائية جديدة من قوائمك.",
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Generation Failed",
-        description: error.message || "Failed to generate selections. Please ensure both lists have items.",
+        title: "فشل في الإنشاء",
+        description: error.message || "فشل في إنشاء الاختيارات. تأكد من أن كلا القائمتين تحتوي على عناصر.",
         variant: "destructive",
       });
     },
@@ -57,10 +57,10 @@ export default function Home() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" dir="rtl">
       <div className="text-center mb-4">
-        <h2 className="text-lg font-bold text-gray-900 mb-2">Generate Random Selections</h2>
-        <p className="text-gray-600 text-sm">Tap the button to select from your lists</p>
+        <h2 className="text-lg font-bold text-gray-900 mb-2">إنشاء اختيارات عشوائية</h2>
+        <p className="text-gray-600 text-sm">اضغط على الزر للاختيار من قوائمك</p>
       </div>
 
       {/* Generate Button */}
@@ -72,13 +72,13 @@ export default function Home() {
         >
           {generateMutation.isPending ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Generating...
+              <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+              جاري الإنشاء...
             </>
           ) : (
             <>
-              <Dice1 className="mr-2 h-4 w-4" />
-              Generate Selections
+              <Dice1 className="ml-2 h-4 w-4" />
+              إنشاء اختيارات
             </>
           )}
         </Button>
@@ -92,12 +92,12 @@ export default function Home() {
             <div className="bg-blue-50 rounded-full p-2 w-8 h-8 mx-auto mb-2 flex items-center justify-center">
               <ListOrdered className="text-primary text-sm" />
             </div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-2">List 1</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-2">القائمة الأولى</h3>
             <div className="min-h-[40px] flex items-center justify-center">
               {selections?.list1 ? (
                 <div className="text-base font-bold text-primary px-2 py-1 bg-blue-50 rounded">{selections.list1}</div>
               ) : (
-                <div className="text-gray-400 text-xs">No selection yet</div>
+                <div className="text-gray-400 text-xs">لا يوجد اختيار بعد</div>
               )}
             </div>
           </CardContent>
@@ -109,12 +109,12 @@ export default function Home() {
             <div className="bg-green-50 rounded-full p-2 w-8 h-8 mx-auto mb-2 flex items-center justify-center">
               <ListIcon className="text-success text-sm" />
             </div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-2">List 2</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-2">القائمة الثانية</h3>
             <div className="min-h-[40px] flex items-center justify-center">
               {selections?.list2 ? (
                 <div className="text-base font-bold text-success px-2 py-1 bg-green-50 rounded">{selections.list2}</div>
               ) : (
-                <div className="text-gray-400 text-xs">No selection yet</div>
+                <div className="text-gray-400 text-xs">لا يوجد اختيار بعد</div>
               )}
             </div>
           </CardContent>
@@ -124,20 +124,20 @@ export default function Home() {
       {/* Quick Stats */}
       <Card className="mt-6 shadow-sm border border-gray-200">
         <CardContent className="p-4">
-          <h4 className="text-sm font-semibold text-gray-900 mb-3">Your Lists</h4>
+          <h4 className="text-sm font-semibold text-gray-900 mb-3">قوائمك</h4>
           <div className="flex justify-around">
             <div className="text-center">
               <div className="bg-blue-100 rounded-lg p-2 inline-block mb-1">
                 <ListOrdered className="text-primary w-3 h-3" />
               </div>
-              <p className="text-xs text-gray-600">List 1</p>
+              <p className="text-xs text-gray-600">القائمة الأولى</p>
               <p className="text-lg font-bold text-gray-900">{list1?.items.length || 0}</p>
             </div>
             <div className="text-center">
               <div className="bg-green-100 rounded-lg p-2 inline-block mb-1">
                 <ListIcon className="text-success w-3 h-3" />
               </div>
-              <p className="text-xs text-gray-600">List 2</p>
+              <p className="text-xs text-gray-600">القائمة الثانية</p>
               <p className="text-lg font-bold text-gray-900">{list2?.items.length || 0}</p>
             </div>
           </div>

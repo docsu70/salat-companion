@@ -25,13 +25,13 @@ export default function Lists() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
       toast({
-        title: "Item Added",
-        description: "Item has been added to the list successfully.",
+        title: "تم إضافة العنصر",
+        description: "تم إضافة العنصر إلى القائمة بنجاح.",
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Failed to Add Item",
+        title: "فشل في إضافة العنصر",
         description: error.message,
         variant: "destructive",
       });
@@ -46,13 +46,13 @@ export default function Lists() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
       toast({
-        title: "Item Removed",
-        description: "Item has been removed from the list successfully.",
+        title: "تم حذف العنصر",
+        description: "تم حذف العنصر من القائمة بنجاح.",
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Failed to Remove Item",
+        title: "فشل في حذف العنصر",
         description: error.message,
         variant: "destructive",
       });
@@ -67,13 +67,13 @@ export default function Lists() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
       toast({
-        title: "List Cleared",
-        description: "All items have been removed from the list successfully.",
+        title: "تم مسح القائمة",
+        description: "تم حذف جميع العناصر من القائمة بنجاح.",
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Failed to Clear List",
+        title: "فشل في مسح القائمة",
         description: error.message,
         variant: "destructive",
       });
@@ -100,7 +100,7 @@ export default function Lists() {
   };
 
   const handleClearList = (listId: string, listName: string) => {
-    if (window.confirm(`Are you sure you want to clear all items from ${listName}? This action cannot be undone.`)) {
+    if (window.confirm(`هل أنت متأكد من أنك تريد مسح جميع العناصر من ${listName}؟ لا يمكن التراجع عن هذا الإجراء.`)) {
       clearListMutation.mutate(listId);
     }
   };
@@ -123,8 +123,8 @@ export default function Lists() {
     URL.revokeObjectURL(url);
 
     toast({
-      title: "Data Exported",
-      description: "Your lists have been exported successfully.",
+      title: "تم تصدير البيانات",
+      description: "تم تصدير قوائمك بنجاح.",
     });
   };
 
@@ -143,10 +143,10 @@ export default function Lists() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" dir="rtl">
       <div className="text-center mb-4">
-        <h2 className="text-lg font-bold text-gray-900 mb-2">Manage Your Lists</h2>
-        <p className="text-gray-600 text-sm">Add or remove items from your lists</p>
+        <h2 className="text-lg font-bold text-gray-900 mb-2">إدارة القوائم</h2>
+        <p className="text-gray-600 text-sm">أضف أو احذف عناصر من قوائمك</p>
       </div>
 
       <div className="space-y-4">
@@ -158,18 +158,18 @@ export default function Lists() {
                 <ListOrdered className="text-primary w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">List 1</h3>
+                <h3 className="text-sm font-semibold text-gray-900">القائمة الأولى</h3>
               </div>
             </div>
             
             {/* Add Item Form */}
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 space-x-reverse">
               <Input
                 type="text"
                 value={list1Input}
                 onChange={(e) => setList1Input(e.target.value)}
                 onKeyPress={(e) => handleKeyPress(e, handleAddToList1)}
-                placeholder="Add new item..."
+                placeholder="أضف عنصر جديد..."
                 className="flex-1 text-sm"
               />
               <Button 
@@ -193,7 +193,7 @@ export default function Lists() {
               {list1?.items.length === 0 ? (
                 <div className="text-center py-4 text-gray-500">
                   <Inbox className="w-6 h-6 mx-auto mb-2 text-gray-400" />
-                  <p className="text-xs">No items yet</p>
+                  <p className="text-xs">لا توجد عناصر بعد</p>
                 </div>
               ) : (
                 list1?.items.map((item, index) => (
@@ -223,18 +223,18 @@ export default function Lists() {
                 <ListIcon className="text-success w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">List 2</h3>
+                <h3 className="text-sm font-semibold text-gray-900">القائمة الثانية</h3>
               </div>
             </div>
             
             {/* Add Item Form */}
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 space-x-reverse">
               <Input
                 type="text"
                 value={list2Input}
                 onChange={(e) => setList2Input(e.target.value)}
                 onKeyPress={(e) => handleKeyPress(e, handleAddToList2)}
-                placeholder="Add new item..."
+                placeholder="أضف عنصر جديد..."
                 className="flex-1 text-sm"
               />
               <Button 
@@ -258,7 +258,7 @@ export default function Lists() {
               {list2?.items.length === 0 ? (
                 <div className="text-center py-4 text-gray-500">
                   <Inbox className="w-6 h-6 mx-auto mb-2 text-gray-400" />
-                  <p className="text-xs">No items yet</p>
+                  <p className="text-xs">لا توجد عناصر بعد</p>
                 </div>
               ) : (
                 list2?.items.map((item, index) => (
@@ -284,25 +284,25 @@ export default function Lists() {
       {/* Bulk Actions */}
       <Card className="mt-4 shadow-sm border border-gray-200">
         <CardContent className="p-3">
-          <h4 className="text-sm font-semibold text-gray-900 mb-3">Actions</h4>
+          <h4 className="text-sm font-semibold text-gray-900 mb-3">الإجراءات</h4>
           <div className="grid grid-cols-2 gap-2">
             <Button 
               variant="outline"
-              onClick={() => list1 && handleClearList(list1.id, "List 1")}
+              onClick={() => list1 && handleClearList(list1.id, "القائمة الأولى")}
               disabled={clearListMutation.isPending || !list1?.items.length}
               className="bg-red-50 text-red-600 hover:bg-red-100 border-red-200 text-xs p-2 h-auto"
             >
-              <Trash2 className="h-3 w-3 mr-1" />
-              Clear List 1
+              <Trash2 className="h-3 w-3 ml-1" />
+              مسح القائمة الأولى
             </Button>
             <Button 
               variant="outline"
-              onClick={() => list2 && handleClearList(list2.id, "List 2")}
+              onClick={() => list2 && handleClearList(list2.id, "القائمة الثانية")}
               disabled={clearListMutation.isPending || !list2?.items.length}
               className="bg-red-50 text-red-600 hover:bg-red-100 border-red-200 text-xs p-2 h-auto"
             >
-              <Trash2 className="h-3 w-3 mr-1" />
-              Clear List 2
+              <Trash2 className="h-3 w-3 ml-1" />
+              مسح القائمة الثانية
             </Button>
           </div>
           <Button 
@@ -310,8 +310,8 @@ export default function Lists() {
             onClick={handleExportData}
             className="bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-300 text-xs p-2 h-auto w-full mt-2"
           >
-            <Download className="h-3 w-3 mr-1" />
-            Export Data
+            <Download className="h-3 w-3 ml-1" />
+            تصدير البيانات
           </Button>
         </CardContent>
       </Card>

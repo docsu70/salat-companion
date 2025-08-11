@@ -14,23 +14,23 @@ export default function Header() {
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
               </svg>
             </div>
-            <h1 className="text-base font-semibold text-gray-900">Random Selector</h1>
+            <h1 className="text-base font-semibold text-gray-900">اختيار عشوائي</h1>
           </div>
-          <nav className="flex space-x-1">
+          <nav className="flex space-x-1 space-x-reverse">
             <Link href="/">
               <button className={`nav-tab px-3 py-2 rounded-md font-medium text-xs transition-colors flex items-center ${
                 location === "/" ? "active" : ""
               }`}>
-                <Home className="w-3 h-3 mr-1" />
-                Home
+                <Home className="w-3 h-3 ml-1" />
+                الرئيسية
               </button>
             </Link>
             <Link href="/lists">
               <button className={`nav-tab px-3 py-2 rounded-md font-medium text-xs transition-colors flex items-center ${
                 location === "/lists" ? "active" : ""
               }`}>
-                <List className="w-3 h-3 mr-1" />
-                Lists
+                <List className="w-3 h-3 ml-1" />
+                القوائم
               </button>
             </Link>
           </nav>

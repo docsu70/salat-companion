@@ -8,6 +8,7 @@ This is a mobile-first web application that allows users to manage and randomly 
 
 Preferred communication style: Simple, everyday language.
 Target platform: Mobile app (compact, touch-friendly interface)
+Language: Arabic with RTL (right-to-left) layout
 
 ## System Architecture
 
