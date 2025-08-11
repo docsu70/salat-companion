@@ -54,7 +54,7 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             
-            <SheetContent side="right" className="w-72" dir="rtl">
+            <SheetContent side="left" className="w-72" dir="rtl">
               <SheetHeader className="text-right">
                 <SheetTitle className="text-lg font-bold text-gray-900">
                   القائمة الرئيسية

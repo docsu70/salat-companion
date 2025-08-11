@@ -76,7 +76,7 @@ export default function Home() {
           ) : (
             <>
               <Dice1 className="ml-2 h-4 w-4" />
-              إنشاء اختيارات
+              اختيار جديد
             </>
           )}
         </Button>
