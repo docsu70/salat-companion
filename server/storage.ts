@@ -29,8 +29,15 @@ export class MemStorage implements IStorage {
       items: []
     };
     
+    const list3: SelectionList = {
+      id: "list-3",
+      name: "أيات مقترحة للحفظ",
+      items: []
+    };
+    
     this.lists.set(list1.id, list1);
     this.lists.set(list2.id, list2);
+    this.lists.set(list3.id, list3);
   }
 
   async getSelectionList(id: string): Promise<SelectionList | undefined> {

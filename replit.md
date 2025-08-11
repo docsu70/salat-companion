@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a mobile-first web application that allows users to manage and randomly select items from two lists. The app provides a clean, compact interface optimized for mobile devices with Arabic language support and RTL (right-to-left) layout. Users can manage List 1 and List 2 separately through dedicated pages, and generate random selections from both lists simultaneously on the home page. Built with a modern React frontend and Express.js backend, it uses in-memory storage for fast data access and follows a type-safe development approach with TypeScript throughout.
+This is a mobile-first web application that allows users to manage and randomly select items from multiple lists. The app provides a clean, compact interface optimized for mobile devices with Arabic language support and RTL (right-to-left) layout. Users can manage List 1, List 2, and "أيات مقترحة للحفظ" (Suggested verses for memorization) through a unified tabbed interface, and generate random selections from all lists simultaneously on the home page. Built with a modern React frontend and Express.js backend, it uses in-memory storage for fast data access and follows a type-safe development approach with TypeScript throughout.
 
 ## User Preferences
 

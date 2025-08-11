@@ -18,27 +18,19 @@ export default function Header() {
           </div>
           <nav className="flex space-x-1 space-x-reverse">
             <Link href="/">
-              <button className={`nav-tab px-2 py-2 rounded-md font-medium text-xs transition-colors flex items-center ${
+              <button className={`nav-tab px-3 py-2 rounded-md font-medium text-xs transition-colors flex items-center ${
                 location === "/" ? "active" : ""
               }`}>
                 <Home className="w-3 h-3 ml-1" />
                 الرئيسية
               </button>
             </Link>
-            <Link href="/list1">
-              <button className={`nav-tab px-2 py-2 rounded-md font-medium text-xs transition-colors flex items-center ${
-                location === "/list1" ? "active" : ""
-              }`}>
-                <ListOrdered className="w-3 h-3 ml-1" />
-                القائمة 1
-              </button>
-            </Link>
-            <Link href="/list2">
-              <button className={`nav-tab px-2 py-2 rounded-md font-medium text-xs transition-colors flex items-center ${
-                location === "/list2" ? "active" : ""
+            <Link href="/lists">
+              <button className={`nav-tab px-3 py-2 rounded-md font-medium text-xs transition-colors flex items-center ${
+                location === "/lists" ? "active" : ""
               }`}>
                 <List className="w-3 h-3 ml-1" />
-                القائمة 2
+                القوائم
               </button>
             </Link>
           </nav>
