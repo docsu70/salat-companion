@@ -49,7 +49,11 @@ export class MemStorage implements IStorage {
 
   async createSelectionList(insertList: InsertSelectionList): Promise<SelectionList> {
     const id = randomUUID();
-    const list: SelectionList = { ...insertList, id };
+    const list: SelectionList = { 
+      id, 
+      name: insertList.name, 
+      items: insertList.items || [] 
+    };
     this.lists.set(id, list);
     return list;
   }
@@ -60,7 +64,11 @@ export class MemStorage implements IStorage {
       return undefined;
     }
     
-    const updatedList: SelectionList = { ...existingList, ...updates };
+    const updatedList: SelectionList = { 
+      ...existingList, 
+      ...(updates.name && { name: updates.name }),
+      ...(updates.items && { items: updates.items })
+    };
     this.lists.set(id, updatedList);
     return updatedList;
   }

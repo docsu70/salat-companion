@@ -109,7 +109,7 @@
   }
 
   body {
-    @apply font-sans antialiased bg-gray-50 text-foreground;
+    @apply font-sans antialiased bg-gray-50 text-foreground text-sm;
   }
 }
 

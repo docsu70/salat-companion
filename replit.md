@@ -2,11 +2,12 @@
 
 ## Overview
 
-This is a full-stack web application that allows users to manage and randomly select items from two lists. The app provides a clean interface for adding/removing items from "List 1" and "List 2", and generates random selections from both lists simultaneously. Built with a modern React frontend and Express.js backend, it uses PostgreSQL for data persistence and follows a type-safe development approach with TypeScript throughout.
+This is a mobile-first web application that allows users to manage and randomly select items from two lists. The app provides a clean, compact interface optimized for mobile devices for adding/removing items from "List 1" and "List 2", and generates random selections from both lists simultaneously. Built with a modern React frontend and Express.js backend, it uses in-memory storage for fast data access and follows a type-safe development approach with TypeScript throughout.
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Target platform: Mobile app (compact, touch-friendly interface)
 
 ## System Architecture
 
