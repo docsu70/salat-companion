@@ -10,6 +10,26 @@ Preferred communication style: Simple, everyday language.
 Target platform: Mobile app (compact, touch-friendly interface)
 Language: Arabic with RTL (right-to-left) layout
 
+## Recent Changes (August 11, 2025)
+
+### Navigation & UI Updates
+- Converted entire application to Arabic language with RTL layout support
+- Added Noto Sans Arabic font for proper Arabic text rendering
+- Simplified navigation to two main sections: "الرئيسية" (Home) and "القوائم" (Lists)
+
+### List Management Enhancement
+- Created unified tabbed interface for managing all lists in one page
+- Added third list: "أيات مقترحة للحفظ" (Suggested verses for memorization)
+- Each list has distinct color coding: List 1 (blue), List 2 (green), Verses (purple)
+- Removed individual list overview from home page for cleaner interface
+- Home page now focuses solely on random selection functionality
+
+### Technical Implementation
+- Backend storage updated to support three default lists
+- All user interface text converted to Arabic
+- Toast notifications and confirmation dialogs localized
+- Maintained mobile-first responsive design throughout changes
+
 ## System Architecture
 
 ### Frontend Architecture
@@ -49,4 +69,5 @@ Language: Arabic with RTL (right-to-left) layout
 - **Error Boundaries**: Proper error handling and user feedback mechanisms
 - **Responsive Design**: Mobile-first responsive layouts with Tailwind utilities
 - **Internationalization**: Arabic language support with RTL layout using CSS direction properties
-- **Page Organization**: Dedicated pages for each list management with focused functionality
+- **Page Organization**: Unified tabbed interface for managing multiple lists with extensible design
+- **Multi-list Support**: Support for three lists including Arabic verse memorization list
