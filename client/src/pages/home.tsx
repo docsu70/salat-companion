@@ -60,7 +60,7 @@ export default function Home() {
     <div className="space-y-4" dir="rtl">
       <div className="text-center mb-4">
         <h2 className="text-lg font-bold text-gray-900 mb-2">اختيار سور وآيات</h2>
-        <p className="text-gray-600 text-sm">اضغط على الزر للاختيار من قوائمك</p>
+        <p className="text-gray-600 text-sm">اضغط على الزر لاختيار سور وآيات عشوائية من قوائمك</p>
       </div>
       {/* Generate Button */}
       <div className="text-center mb-6">
