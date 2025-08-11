@@ -57,80 +57,90 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 p-4" dir="rtl">
-      <div className="max-w-md mx-auto">
-        {/* Header Card */}
-        <Card className="mb-6 shadow-lg border-0 bg-white/80 backdrop-blur">
-          <CardContent className="p-6 text-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <Dice1 className="text-white text-xl" />
-            </div>
-            <h1 className="text-xl font-bold text-gray-900 mb-2">اختيار سور وآيات</h1>
-            <p className="text-gray-600 text-sm mb-6">اختر آيات وسور للمراجعة والحفظ</p>
-            
-            <Button 
-              onClick={handleGenerate}
-              disabled={generateMutation.isPending}
-              className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg text-base w-full"
-            >
-              {generateMutation.isPending ? (
-                <>
-                  <Loader2 className="ml-2 h-5 w-5 animate-spin" />
-                  جاري الاختيار...
-                </>
-              ) : (
-                <>
-                  <Dice1 className="ml-2 h-5 w-5" />
-                  ابدأ الاختيار
-                </>
-              )}
-            </Button>
-          </CardContent>
-        </Card>
+    <div className="max-w-sm mx-auto p-4 space-y-6" dir="rtl">
+      {/* Simple Header */}
+      <div className="text-center space-y-2">
+        <h1 className="text-2xl font-bold text-gray-900">اختيار عشوائي</h1>
+        <p className="text-gray-500 text-sm">للسور والآيات</p>
+      </div>
 
-        {/* Results Grid */}
-        <div className="grid grid-cols-1 gap-4">
-          {/* Short Verses Result */}
-          <Card className="shadow-lg border-0 bg-white/90 backdrop-blur overflow-hidden">
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3">
-              <div className="flex items-center justify-center text-white">
-                <ListOrdered className="ml-2 h-5 w-5" />
-                <h3 className="font-semibold">سور/آيات قصيرة</h3>
-              </div>
+      {/* Central Generate Button */}
+      <div className="flex justify-center">
+        <Button 
+          onClick={handleGenerate}
+          disabled={generateMutation.isPending}
+          size="lg"
+          className="w-32 h-32 rounded-full bg-white border-4 border-blue-500 text-blue-600 hover:bg-blue-50 shadow-lg hover:shadow-xl transition-all duration-200"
+        >
+          <div className="text-center">
+            {generateMutation.isPending ? (
+              <Loader2 className="mx-auto h-8 w-8 animate-spin mb-1" />
+            ) : (
+              <Dice1 className="mx-auto h-8 w-8 mb-1" />
+            )}
+            <div className="text-xs font-semibold">
+              {generateMutation.isPending ? "جاري..." : "اختر"}
             </div>
-            <CardContent className="p-6">
-              <div className="min-h-[60px] flex items-center justify-center">
-                {selections?.list1 ? (
-                  <div className="text-lg font-bold text-blue-700 bg-blue-50 px-4 py-3 rounded-xl border-2 border-blue-200 text-center w-full">
-                    {selections.list1}
-                  </div>
-                ) : (
-                  <div className="text-gray-400 text-sm">لا يوجد اختيار بعد</div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+          </div>
+        </Button>
+      </div>
 
-          {/* Long Verses Result */}
-          <Card className="shadow-lg border-0 bg-white/90 backdrop-blur overflow-hidden">
-            <div className="bg-gradient-to-r from-green-500 to-green-600 p-3">
-              <div className="flex items-center justify-center text-white">
-                <ListIcon className="ml-2 h-5 w-5" />
-                <h3 className="font-semibold">سور/آيات طويلة</h3>
+      {/* Results in Two Columns */}
+      <div className="grid grid-cols-2 gap-3">
+        {/* Short Verses */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-center gap-1 text-blue-600">
+            <ListOrdered className="h-4 w-4" />
+            <span className="text-xs font-medium">قصيرة</span>
+          </div>
+          <div className="bg-white border-2 border-blue-200 rounded-lg p-3 min-h-[80px] flex items-center justify-center">
+            {selections?.list1 ? (
+              <div className="text-center">
+                <div className="text-blue-800 font-bold text-sm leading-relaxed">
+                  {selections.list1}
+                </div>
               </div>
-            </div>
-            <CardContent className="p-6">
-              <div className="min-h-[60px] flex items-center justify-center">
-                {selections?.list2 ? (
-                  <div className="text-lg font-bold text-green-700 bg-green-50 px-4 py-3 rounded-xl border-2 border-green-200 text-center w-full">
-                    {selections.list2}
-                  </div>
-                ) : (
-                  <div className="text-gray-400 text-sm">لا يوجد اختيار بعد</div>
-                )}
+            ) : (
+              <div className="text-gray-400 text-xs text-center">
+                لا يوجد اختيار
               </div>
-            </CardContent>
-          </Card>
+            )}
+          </div>
+        </div>
+
+        {/* Long Verses */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-center gap-1 text-green-600">
+            <ListIcon className="h-4 w-4" />
+            <span className="text-xs font-medium">طويلة</span>
+          </div>
+          <div className="bg-white border-2 border-green-200 rounded-lg p-3 min-h-[80px] flex items-center justify-center">
+            {selections?.list2 ? (
+              <div className="text-center">
+                <div className="text-green-800 font-bold text-sm leading-relaxed">
+                  {selections.list2}
+                </div>
+              </div>
+            ) : (
+              <div className="text-gray-400 text-xs text-center">
+                لا يوجد اختيار
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Stats */}
+      <div className="bg-gray-50 rounded-lg p-3">
+        <div className="grid grid-cols-2 gap-4 text-center">
+          <div>
+            <div className="text-lg font-bold text-blue-600">{list1?.items.length || 0}</div>
+            <div className="text-xs text-gray-600">سور قصيرة</div>
+          </div>
+          <div>
+            <div className="text-lg font-bold text-green-600">{list2?.items.length || 0}</div>
+            <div className="text-xs text-gray-600">سور طويلة</div>
+          </div>
         </div>
       </div>
     </div>
