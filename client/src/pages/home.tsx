@@ -102,7 +102,7 @@ export default function Home() {
 
         {/* List 2 Result */}
         <Card className="shadow-sm border border-gray-200">
-          <CardContent className="p-4 text-center">
+          <CardContent className="p-4 text-center bg-[#d3ded8]">
             <div className="bg-green-50 rounded-full p-2 w-8 h-8 mx-auto mb-2 flex items-center justify-center">
               <ListIcon className="text-success text-sm" />
             </div>
