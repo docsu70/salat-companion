@@ -27,10 +27,6 @@ export default function Home() {
     },
     onSuccess: (data) => {
       setSelections(data);
-      toast({
-        title: "تم إنشاء الاختيارات!",
-        description: "تم إنشاء اختيارات عشوائية جديدة من قوائمك.",
-      });
     },
     onError: (error: Error) => {
       toast({

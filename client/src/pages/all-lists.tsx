@@ -24,10 +24,6 @@ export default function AllLists() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
-      toast({
-        title: "تم إضافة العنصر",
-        description: "تم إضافة العنصر إلى القائمة بنجاح.",
-      });
     },
     onError: (error: Error) => {
       toast({

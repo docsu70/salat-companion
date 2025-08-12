@@ -23,10 +23,6 @@ export default function List3() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
-      toast({
-        title: "تم إضافة العنصر",
-        description: "تم إضافة العنصر إلى القائمة بنجاح.",
-      });
     },
     onError: (error: Error) => {
       toast({
