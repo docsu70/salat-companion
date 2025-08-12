@@ -124,9 +124,7 @@ export default function Header() {
                     <div className="text-sm font-semibold text-gray-900 mb-1">
                       تطبيق اختيار السور والآيات
                     </div>
-                    <div className="text-xs text-gray-600">
-                      للمساعدة في الحفظ والمراجعة اليومية
-                    </div>
+                    <div className="text-xs text-gray-600">للصلاة أو الحفظ والمراجعة</div>
                   </div>
                 </div>
               </div>

@@ -107,7 +107,7 @@ export default function List2() {
     return (
       <div className="text-center py-12">
         <div className="text-red-600 mb-2">القائمة غير موجودة</div>
-        <div className="text-gray-500 text-sm">لم يتم العثور على قائمة "سور/آيات طويلة"</div>
+        <div className="text-gray-500 text-sm">لم نعثر على قائمة "سور/آيات طويلة"</div>
       </div>
     );
   }
@@ -116,7 +116,7 @@ export default function List2() {
     <div className="space-y-6" dir="rtl">
       <div className="text-center">
         <h2 className="text-lg font-bold text-gray-900 mb-2">سور/آيات طويلة</h2>
-        <p className="text-gray-600 text-sm">أضف أو احذف السور والآيات الطويلة</p>
+        <p className="text-gray-600 text-sm">أضف أو احذف سور/آيات </p>
       </div>
 
       {/* List Header */}
@@ -140,7 +140,7 @@ export default function List2() {
               type="text"
               value={newItem}
               onChange={(e) => setNewItem(e.target.value)}
-              placeholder="اكتب اسم السورة أو الآية..."
+              placeholder="أضف سور/آيات..."
               disabled={addItemMutation.isPending}
               className="flex-1 text-right"
             />
@@ -165,7 +165,7 @@ export default function List2() {
               <div className="text-center py-8">
                 <Inbox className="h-12 w-12 text-gray-300 mx-auto mb-3" />
                 <div className="text-gray-500 text-sm">لا توجد عناصر في هذه القائمة بعد</div>
-                <div className="text-gray-400 text-xs mt-1">ابدأ بإضافة سورة أو آية</div>
+                <div className="text-gray-400 text-xs mt-1">ابدأ بإضافة سور/آيات</div>
               </div>
             ) : (
               list.items.map((item, index) => (
