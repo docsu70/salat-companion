@@ -25,7 +25,8 @@ export default function About() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li>• تصنيف الآيات حسب الطول (قصيرة وطويلة)</li>
+              <li>يساعد على التنويع في الصلاة
+</li>
               <li>• قائمة مخصصة للآيات المقترحة للحفظ</li>
               <li>• إضافة وتعديل الآيات بسهولة</li>
               <li>• البحث والتصفية المتقدمة</li>
