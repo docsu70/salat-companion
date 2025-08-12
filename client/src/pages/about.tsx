@@ -14,12 +14,6 @@ export default function About() {
 
       {/* Mission Card */}
       <Card className="mb-6">
-        <CardHeader>
-          <div className="flex items-center gap-3">
-            <Heart className="h-6 w-6 text-red-500" />
-            <CardTitle className="text-xl">رسالتنا</CardTitle>
-          </div>
-        </CardHeader>
         <CardContent>
           <p className="text-gray-700 leading-relaxed">
             نسعى إلى تسهيل رحلة حفظ القرآن الكريم من خلال توفير أداة بسيطة وفعالة لتنظيم الآيات والسور،
