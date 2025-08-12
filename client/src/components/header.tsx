@@ -18,14 +18,14 @@ export default function Header() {
     {
       href: "/",
       icon: Home,
-      label: "الرئيسية",
-      description: "صفحة الاختيار العشوائي"
+      label: "الرئيسية"
+      
     },
     {
       href: "/list1",
       icon: List,
       label: "سور/آيات قصيرة",
-      description: "إدارة السور والآيات القصيرة",
+      description: "قائمة السور والآيات القصيرة",
       color: "text-blue-600"
     },
     {
