@@ -22,6 +22,14 @@ Language: Arabic with RTL (right-to-left) layout
 - Created mobile setup documentation and automated scripts for platform development
 - Enhanced HTML metadata with PWA-specific tags for iOS and Android compatibility
 
+### iOS Safari Compatibility & Logo Integration
+- **Resolved iPhone loading issues** by fixing service worker cache conflicts
+- Integrated user's custom mosque arch logo for mobile devices and PWA installation
+- Added iOS-specific viewport settings with safe area support for notch devices
+- Enhanced service worker with better error handling and offline fallback
+- Maintained Islamic arch icon in app header while using custom logo for mobile
+- Added proper Apple touch icon sizes and format detection settings
+
 ### App Rebranding & Navigation Enhancement
 - **App renamed to "Salat Companion - رفيق الصلاة"** to better reflect Islamic purpose
 - Updated HTML metadata with bilingual title and enhanced SEO tags
