@@ -1,7 +1,31 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Heart, Users, Star } from "lucide-react";
+import { BookOpen, Heart, Users, Star, Copy, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 export default function About() {
+  const { toast } = useToast();
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText("rafiq-salat-app@proton.me");
+      setCopied(true);
+      toast({
+        title: "تم النسخ!",
+        description: "تم نسخ البريد الإلكتروني بنجاح",
+      });
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      toast({
+        title: "فشل النسخ",
+        description: "لم يتم نسخ البريد الإلكتروني",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="space-y-6 max-w-4xl mx-auto p-4" dir="rtl">
       {/* Header Section */}
@@ -13,9 +37,24 @@ export default function About() {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
            استخدم التطبيق في أوقات الصلاة لتفادي تكرار نفس السور القصيرة وليساعدك التطبيق على مداومة مراجعة السور والآيات التي تحفظها
                 </p>
-        <ul className="text-base text-gray-600 max-w-2xl mx-auto mt-4">
-          <li>• للتواصل: rafiq-salat-app@proton.me</li>
-        </ul>
+        <div className="text-base text-gray-600 max-w-2xl mx-auto mt-4">
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            <span>• للتواصل:</span>
+            <span className="font-mono text-blue-600">rafiq-salat-app@proton.me</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={copyEmail}
+              className="h-6 px-2 text-xs hover:bg-blue-50"
+            >
+              {copied ? (
+                <Check className="h-3 w-3 text-green-600" />
+              ) : (
+                <Copy className="h-3 w-3 text-blue-600" />
+              )}
+            </Button>
+          </div>
+        </div>
       </div>
       
       {/* Features Grid */}
