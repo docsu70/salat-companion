@@ -42,16 +42,32 @@ export default function List1() {
   const removeItemMutation = useMutation({
     mutationFn: async (index: number) => {
       if (!list) throw new Error("List not found");
+      
+      // Validate index before making request
+      if (index < 0 || index >= list.items.length) {
+        throw new Error("Invalid item index");
+      }
+      
       const response = await apiRequest("DELETE", `/api/lists/${list.id}/items/${index}`);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete item");
+      }
+      
       return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
+      toast({
+        title: "تم الحذف",
+        description: "تم حذف العنصر بنجاح",
+      });
     },
     onError: (error: Error) => {
       toast({
         title: "فشل في الحذف",
-        description: error.message || "حدث خطأ",
+        description: error.message || "حدث خطأ في حذف العنصر",
         variant: "destructive",
       });
     },
@@ -116,8 +132,9 @@ export default function List1() {
     <div className="space-y-6" dir="rtl">
       <div className="text-center">
         <h2 className="text-lg font-bold text-gray-900 mb-2">سور/آيات قصيرة</h2>
-        <p className="text-gray-600 text-sm">خصص القائمة بإضافة أو حذف السور/الآيات</p>
+        <p className="text-gray-600 text-sm">خصص القائمة بإضافة أو حذف السور/الآيات </p>
       </div>
+
       {/* List Header */}
       <div className="flex items-center space-x-2 space-x-reverse mb-3">
         <div className="bg-blue-100 rounded-lg p-2">
@@ -130,6 +147,7 @@ export default function List1() {
           </p>
         </div>
       </div>
+      
       <Card className="shadow-sm border border-gray-200">
         <CardHeader className="pb-3 border-b border-gray-200">
           {/* Add Item Form */}
@@ -189,6 +207,7 @@ export default function List1() {
           </div>
         </CardContent>
       </Card>
+
       {/* Actions */}
       {list.items.length > 0 && (
         <Card className="shadow-sm border border-gray-200">

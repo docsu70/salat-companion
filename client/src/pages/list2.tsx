@@ -42,16 +42,32 @@ export default function List2() {
   const removeItemMutation = useMutation({
     mutationFn: async (index: number) => {
       if (!list) throw new Error("List not found");
+      
+      // Validate index before making request
+      if (index < 0 || index >= list.items.length) {
+        throw new Error("Invalid item index");
+      }
+      
       const response = await apiRequest("DELETE", `/api/lists/${list.id}/items/${index}`);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete item");
+      }
+      
       return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
+      toast({
+        title: "تم الحذف",
+        description: "تم حذف العنصر بنجاح",
+      });
     },
     onError: (error: Error) => {
       toast({
         title: "فشل في الحذف",
-        description: error.message || "حدث خطأ",
+        description: error.message || "حدث خطأ في حذف العنصر",
         variant: "destructive",
       });
     },
