@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, List, Menu, X, ListOrdered, BookOpen } from "lucide-react";
+import { Home, List, Menu, X, ListOrdered, BookOpen, Info } from "lucide-react";
 import { useState } from "react";
 import {
   Sheet,
@@ -20,6 +20,13 @@ export default function Header() {
       icon: Home,
       label: "الرئيسية",
       description: "صفحة الاختيار العشوائي"
+    },
+    {
+      href: "/about",
+      icon: Info,
+      label: "حول التطبيق",
+      description: "معلومات حول رفيق الصلاة",
+      color: "text-gray-600"
     },
     {
       href: "/list1",
