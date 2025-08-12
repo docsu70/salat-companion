@@ -113,7 +113,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Generate random selections
+  // Generate random selections with "select once until all selected" logic
   app.post("/api/generate-selections", async (_req, res) => {
     try {
       const lists = await storage.getAllSelectionLists();
@@ -128,14 +128,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "حدث خطأ" });
       }
 
-      const list1Selection = list1.items[Math.floor(Math.random() * list1.items.length)];
-      const list2Selection = list2.items[Math.floor(Math.random() * list2.items.length)];
+      // Get current selection cycle
+      const currentCycle = await storage.getCurrentCycle();
+
+      // Get unselected items from both lists
+      const unselectedList1 = await storage.getUnselectedItems(list1.id, currentCycle);
+      const unselectedList2 = await storage.getUnselectedItems(list2.id, currentCycle);
+
+      // If either list has no unselected items, reset the cycle and start fresh
+      if (unselectedList1.length === 0 || unselectedList2.length === 0) {
+        const newCycle = await storage.resetSelectionCycle();
+        const freshList1 = [...list1.items];
+        const freshList2 = [...list2.items];
+
+        // Make selections from fresh lists
+        const list1Selection = freshList1[Math.floor(Math.random() * freshList1.length)];
+        const list2Selection = freshList2[Math.floor(Math.random() * freshList2.length)];
+
+        // Record the selections in the new cycle
+        await storage.addSelectionToHistory({
+          listId: list1.id,
+          selectedItem: list1Selection,
+          selectionCycle: newCycle
+        });
+
+        await storage.addSelectionToHistory({
+          listId: list2.id,
+          selectedItem: list2Selection,
+          selectionCycle: newCycle
+        });
+
+        return res.json({
+          list1: list1Selection,
+          list2: list2Selection
+        });
+      }
+
+      // Make selections from unselected items
+      const list1Selection = unselectedList1[Math.floor(Math.random() * unselectedList1.length)];
+      const list2Selection = unselectedList2[Math.floor(Math.random() * unselectedList2.length)];
+
+      // Record the selections in the current cycle
+      await storage.addSelectionToHistory({
+        listId: list1.id,
+        selectedItem: list1Selection,
+        selectionCycle: currentCycle
+      });
+
+      await storage.addSelectionToHistory({
+        listId: list2.id,
+        selectedItem: list2Selection,
+        selectionCycle: currentCycle
+      });
 
       res.json({
         list1: list1Selection,
         list2: list2Selection
       });
     } catch (error) {
+      console.error("Selection generation error:", error);
       res.status(500).json({ message: "Failed to generate selections" });
     }
   });
