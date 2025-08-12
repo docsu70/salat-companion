@@ -11,14 +11,13 @@ export default function About() {
           تطبيق شامل لإدارة وتنظيم الآيات القرآنية، مصمم لمساعدة المسلمين في حفظ ومراجعة كلام الله العزيز
         </p>
       </div>
-
       {/* Features Grid */}
       <div className="grid md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
               <BookOpen className="h-6 w-6 text-blue-600" />
-              <CardTitle>إدارة ذكية للآيات</CardTitle>
+              <CardTitle>مميزات التطبيق</CardTitle>
             </div>
             <CardDescription>
               نظام متطور لتصنيف وتنظيم الآيات القرآنية
@@ -54,7 +53,6 @@ export default function About() {
           </CardContent>
         </Card>
       </div>
-
       {/* How it Works */}
       <Card>
         <CardHeader>
@@ -89,7 +87,6 @@ export default function About() {
           </div>
         </CardContent>
       </Card>
-
       {/* Contact/Support */}
       <Card className="bg-gradient-to-r from-blue-50 to-purple-50">
         <CardHeader>
