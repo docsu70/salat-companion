@@ -34,9 +34,8 @@ export default function About() {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
            صمم هذا التطبيق البسيط لمساعدة المستخدم في اختيار سور وآيات للصلاة أو للحفظ والمراجعة
                 </p>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-           استخدم التطبيق في أوقات الصلاة لتفادي تكرار نفس السور القصيرة وليساعدك التطبيق على مداومة مراجعة السور والآيات التي تحفظها
-                </p>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">استخدم التطبيق في أوقات الصلاة لتفادي تكرار نفس السور القصيرة وليساعدك التطبيق على مداومة مراجعة السور والآيات التي تحفظها
+        نسعد بتلقي ملاحظاتكم لتحسين هذا التطبيق</p>
         <div className="text-base text-gray-600 max-w-2xl mx-auto mt-4">
           <div className="flex items-center justify-center gap-2 flex-wrap">
             <span>• للتواصل:</span>
@@ -56,7 +55,6 @@ export default function About() {
           </div>
         </div>
       </div>
-      
       {/* Features Grid */}
       <div className="grid md:grid-cols-2 gap-6">
         <Card>
@@ -89,18 +87,14 @@ export default function About() {
 
        
       </div>
-    
-      
       {/* Contact/Support */}
-      
-          <p className="text-center text-gray-700 leading-relaxed">
-            نسأل الله أن يجعل هذا العمل خالصاً لوجهه الكريم، وأن ينفع به كل من استخدمه  
-            <br />
-            <span className="text-sm text-gray-500 mt-2 block">
-              ﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾
-            </span>
-          </p>
-        
+      <p className="text-center text-gray-700 leading-relaxed">
+        نسأل الله أن يجعل هذا العمل خالصاً لوجهه الكريم، وأن ينفع به كل من استخدمه  
+        <br />
+        <span className="text-sm text-gray-500 mt-2 block">
+          ﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾
+        </span>
+      </p>
     </div>
   );
 }
