@@ -12,16 +12,6 @@ export default function About() {
         </p>
       </div>
 
-      {/* Mission Card */}
-      <Card className="mb-6">
-        <CardContent>
-          <p className="text-gray-700 leading-relaxed">
-            نسعى إلى تسهيل رحلة حفظ القرآن الكريم من خلال توفير أداة بسيطة وفعالة لتنظيم الآيات والسور،
-            وإنشاء قوائم مخصصة تناسب احتياجات كل مستخدم في رحلته مع كتاب الله.
-          </p>
-        </CardContent>
-      </Card>
-
       {/* Features Grid */}
       <div className="grid md:grid-cols-2 gap-6">
         <Card>
