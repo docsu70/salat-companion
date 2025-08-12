@@ -57,7 +57,10 @@ export default function Header() {
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <div className="text-primary">
-              <img src="/app-logo.png" alt="رفيق الصلاة" className="w-6 h-6 object-contain" />
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                <path d="M12 2C8 2 4 4 4 8v6c0 2 1 4 4 4h8c3 0 4-2 4-4V8c0-4-4-6-8-6z" fill="none" stroke="currentColor" strokeWidth="2"/>
+                <path d="M12 2v16M8 6h8M6 10h12"/>
+              </svg>
             </div>
             <h1 className="text-base font-semibold text-gray-900">رفيق الصلاة</h1>
           </div>
