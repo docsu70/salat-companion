@@ -1,8 +1,8 @@
-# Random Selector App
+# Salat Companion - رفيق الصلاة
 
 ## Overview
 
-This is a mobile-first web application that allows users to manage and randomly select items from multiple lists. The app provides a clean, compact interface optimized for mobile devices with Arabic language support and RTL (right-to-left) layout. Users can manage "سور/آيات قصيرة" (Short surahs/verses), "سور/آيات طويلة" (Long surahs/verses), and "أيات مقترحة للحفظ" (Suggested verses for memorization) through a unified tabbed interface, and generate random selections from all lists simultaneously on the home page. Built with a modern React frontend and Express.js backend, it uses in-memory storage for fast data access and follows a type-safe development approach with TypeScript throughout.
+Salat Companion is a mobile-first Islamic web application that helps users with Quranic memorization and daily review. The app provides a clean, compact interface optimized for mobile devices with Arabic language support and RTL (right-to-left) layout. Users can manage "سور/آيات قصيرة" (Short surahs/verses), "سور/آيات طويلة" (Long surahs/verses), and "أيات مقترحة للحفظ" (Suggested verses for memorization) through separate dedicated pages, and generate random selections from all lists simultaneously on the home page. Built with a modern React frontend and Express.js backend, it uses PostgreSQL database for persistent storage and follows a type-safe development approach with TypeScript throughout.
 
 ## User Preferences
 
@@ -10,7 +10,26 @@ Preferred communication style: Simple, everyday language.
 Target platform: Mobile app (compact, touch-friendly interface)
 Language: Arabic with RTL (right-to-left) layout
 
-## Recent Changes (August 11, 2025)
+## Recent Changes (August 12, 2025)
+
+### App Rebranding & Navigation Enhancement
+- **App renamed to "Salat Companion - رفيق الصلاة"** to better reflect Islamic purpose
+- Updated HTML metadata with bilingual title and enhanced SEO tags
+- Replaced unified list management with separate navigation entries for each list
+- Created individual dedicated management pages for all three lists (list1.tsx, list2.tsx, list3.tsx)
+- Enhanced navigation with color-coded icons and descriptions for each list type
+- Removed generic "القوائم" (Lists) entry in favor of specific list navigation
+
+### List Management Restructure
+- Each list now has its own dedicated page with distinct visual identity:
+  - Short verses: Blue theme with List icon
+  - Long verses: Green theme with ListOrdered icon  
+  - Suggested verses: Purple theme with BookOpen icon
+- Individual list pages feature complete CRUD functionality
+- Color-coded backgrounds and borders match each list's theme
+- Enhanced mobile-first design with touch-friendly interactions
+
+## Previous Changes (August 11, 2025)
 
 ### Navigation & UI Updates
 - Converted entire application to Arabic language with RTL layout support
