@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="96" cy="96" r="96" fill="#004d66"/>
+  
+  <!-- Islamic geometric pattern -->
+  <g fill="#ffffff" opacity="0.9">
+    <!-- Central star pattern -->
+    <path d="M96 40 L110 70 L140 70 L118 88 L125 118 L96 100 L67 118 L74 88 L52 70 L82 70 Z"/>
+    
+    <!-- Decorative crescents -->
+    <path d="M96 25 C85 25 76 34 76 45 C76 34 67 25 56 25 C67 25 76 16 76 5 C76 16 85 25 96 25 Z"/>
+    <path d="M96 167 C85 167 76 158 76 147 C76 158 67 167 56 167 C67 167 76 176 76 187 C76 176 85 167 96 167 Z"/>
+  </g>
+  
+  <!-- Arabic text style decoration -->
+  <g fill="#ffffff" opacity="0.7">
+    <circle cx="96" cy="135" r="2"/>
+    <circle cx="96" cy="145" r="1.5"/>
+    <circle cx="96" cy="155" r="1"/>
+  </g>
+</svg>
