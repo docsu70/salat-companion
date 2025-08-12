@@ -118,7 +118,7 @@ export default function Home() {
             <h3 className="text-sm font-semibold text-gray-900 mb-2">أيات مقترحة للحفظ</h3>
             <div className="min-h-[40px] flex items-center justify-center bg-[white] text-[black]">
               {selections?.list3 ? (
-                <div className="text-base font-bold px-2 py-1 bg-purple-50 rounded" style={{ color: '#7c3aed' }}>{selections.list3}</div>
+                <div className="text-base font-bold px-2 py-1 rounded bg-[transparent] text-[black]" style={{ color: '#7c3aed' }}>{selections.list3}</div>
               ) : (
                 <div className="text-gray-400 text-xs">لا يوجد اختيار بعد</div>
               )}
