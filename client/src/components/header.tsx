@@ -22,13 +22,6 @@ export default function Header() {
       description: "صفحة الاختيار العشوائي"
     },
     {
-      href: "/about",
-      icon: Info,
-      label: "حول التطبيق",
-      description: "معلومات حول رفيق الصلاة",
-      color: "text-gray-600"
-    },
-    {
       href: "/list1",
       icon: List,
       label: "سور/آيات قصيرة",
@@ -48,6 +41,13 @@ export default function Header() {
       label: "أيات مقترحة للحفظ",
       description: "إدارة الآيات المقترحة للحفظ",
       color: "text-purple-600"
+    },
+    {
+      href: "/about",
+      icon: Info,
+      label: "حول التطبيق",
+      description: "معلومات حول رفيق الصلاة",
+      color: "text-gray-600"
     }
   ];
 
