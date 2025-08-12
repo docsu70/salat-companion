@@ -4,7 +4,7 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { ListOrdered, List as ListIcon, BookOpen, Plus, Trash2, Loader2, Inbox } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { SelectionList } from "@shared/schema";
@@ -128,25 +128,7 @@ export default function AllLists() {
         <p className="text-gray-600 text-sm">أضف أو احذف عناصر من قوائمك</p>
       </div>
 
-      <Tabs defaultValue="list-1" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          {lists.map((list) => {
-            const color = getListColor(list.name);
-            return (
-              <TabsTrigger 
-                key={list.id} 
-                value={list.id}
-                className="text-xs data-[state=active]:bg-primary data-[state=active]:text-white"
-              >
-                <div className="flex items-center space-x-1 space-x-reverse">
-                  {getListIcon(list.name)}
-                  <span className="truncate max-w-20">{list.name}</span>
-                </div>
-              </TabsTrigger>
-            );
-          })}
-        </TabsList>
-
+      <div className="space-y-6">
         {lists.map((list) => {
           const color = getListColor(list.name);
           const colorClasses = {
@@ -158,23 +140,24 @@ export default function AllLists() {
           const colors = colorClasses[color as keyof typeof colorClasses];
 
           return (
-            <TabsContent key={list.id} value={list.id} className="mt-4">
+            <div key={list.id}>
+              {/* List Title */}
+              <div className="flex items-center space-x-2 space-x-reverse mb-3">
+                <div className={`${colors.bg} rounded-lg p-2`}>
+                  <div className={colors.text}>
+                    {getListIcon(list.name)}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-base font-semibold text-gray-900">{list.name}</h3>
+                  <p className="text-xs text-gray-500">
+                    {list.items.length} {list.name === "أيات مقترحة للحفظ" ? "آية" : "سورة/آية"}
+                  </p>
+                </div>
+              </div>
+              
               <Card className="shadow-sm border border-gray-200">
                 <CardHeader className="pb-3 border-b border-gray-200">
-                  <div className="flex items-center space-x-2 space-x-reverse mb-3">
-                    <div className={`${colors.bg} rounded-lg p-2`}>
-                      <div className={colors.text}>
-                        {getListIcon(list.name)}
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-semibold text-gray-900">إدارة العناصر</h3>
-                      <p className="text-xs text-gray-500">
-                        {list.items.length} {list.name === "أيات مقترحة للحفظ" ? "آية" : "سورة/آية"}
-                      </p>
-                    </div>
-                  </div>
-                  
                   {/* Add Item Form */}
                   <div className="flex space-x-2 space-x-reverse">
                     <Input
@@ -255,10 +238,10 @@ export default function AllLists() {
                   </CardContent>
                 </Card>
               )}
-            </TabsContent>
+            </div>
           );
         })}
-      </Tabs>
+      </div>
     </div>
   );
 }
