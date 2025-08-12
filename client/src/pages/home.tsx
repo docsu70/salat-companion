@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dice1, ListOrdered, List as ListIcon, Loader2, Hand, MousePointer2 } from "lucide-react";
+import { Dice1, ListOrdered, List as ListIcon, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { SelectionList } from "@shared/schema";
 
@@ -73,7 +73,6 @@ export default function Home() {
             </>
           ) : (
             <>
-              <MousePointer2 className="ml-2 h-4 w-4" />
               اختيار جديد
             </>
           )}
