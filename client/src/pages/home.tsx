@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dice1, ListOrdered, List as ListIcon, Loader2 } from "lucide-react";
+import { Dice1, ListOrdered, List as ListIcon, Loader2, Hand } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { SelectionList } from "@shared/schema";
 
@@ -64,7 +64,7 @@ export default function Home() {
         <Button 
           onClick={handleGenerate}
           disabled={generateMutation.isPending}
-          className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md text-sm w-[60%] bg-[#004d66] mt-[0px] mb-[0px]"
+          className="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md text-sm w-[45%] bg-[#004d66] mt-[0px] mb-[0px]"
         >
           {generateMutation.isPending ? (
             <>
@@ -73,7 +73,7 @@ export default function Home() {
             </>
           ) : (
             <>
-              <Dice1 className="ml-2 h-4 w-4" />
+              <Hand className="ml-2 h-4 w-4" />
               اختيار جديد
             </>
           )}
