@@ -14,7 +14,6 @@ export default function About() {
            استخدم التطبيق في أوقات الصلاة لتفادي تكرار نفس السور القصيرة وليساعدك التطبيق على مداومة مراجعة السور والآيات التي تحفظها
                 </p>
       </div>
-      
       {/* Features Grid */}
       <div className="grid md:grid-cols-2 gap-6">
         <Card>
@@ -47,18 +46,12 @@ export default function About() {
 
        
       </div>
-    
-      
       {/* Contact/Support */}
-      
-          <p className="text-center text-gray-700 leading-relaxed">
-            نسأل الله أن يجعل هذا العمل خالصاً لوجهه الكريم، وأن ينفع به كل من استخدمه في حفظ كتابه العزيز.
-            <br />
-            <span className="text-sm text-gray-500 mt-2 block">
-              "وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ" - القمر: 17
-            </span>
-          </p>
-        
+      <p className="text-center text-gray-700 leading-relaxed">
+        نسأل الله أن يجعل هذا العمل خالصاً لوجهه الكريم، وأن ينفع به كل من استخدمه في حفظ كتابه العزيز.
+        <br />
+        <span className="text-sm text-gray-500 mt-2 block">﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾</span>
+      </p>
     </div>
   );
 }
