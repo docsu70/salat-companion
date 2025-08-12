@@ -58,7 +58,7 @@ export default function Header() {
           <div className="flex items-center space-x-2">
             <div className="text-primary">
               <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                <path d="M12 3L4 5v12l8-2 8 2V5l-8-2zM12 7v10M8 8h2M8 10h3M8 12h2M16 8h2M16 10h3M16 12h2"/>
               </svg>
             </div>
             <h1 className="text-base font-semibold text-gray-900">رفيق الصلاة</h1>
