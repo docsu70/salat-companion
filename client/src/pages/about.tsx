@@ -35,7 +35,9 @@ export default function About() {
            صمم هذا التطبيق البسيط لمساعدة المستخدم في اختيار سور وآيات للصلاة أو للحفظ والمراجعة
                 </p>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">استخدم التطبيق في أوقات الصلاة لتفادي تكرار نفس السور القصيرة وليساعدك التطبيق على مداومة مراجعة السور والآيات التي تحفظها
-        نسعد بتلقي ملاحظاتكم لتحسين هذا التطبيق</p>
+        </p>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto"> نسعد بتلقي ملاحظاتكم لتحسين هذا التطبيق
+          </p>
         <div className="text-base text-gray-600 max-w-2xl mx-auto mt-4">
           <div className="flex items-center justify-center gap-2 flex-wrap">
             <span>• للتواصل:</span>
