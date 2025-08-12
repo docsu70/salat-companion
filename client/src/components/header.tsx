@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, List, Menu, X } from "lucide-react";
+import { Home, List, Menu, X, ListOrdered, BookOpen } from "lucide-react";
 import { useState } from "react";
 import {
   Sheet,
@@ -22,10 +22,25 @@ export default function Header() {
       description: "صفحة الاختيار العشوائي"
     },
     {
-      href: "/lists",
+      href: "/list1",
       icon: List,
-      label: "القوائم",
-      description: "إدارة قوائم السور والآيات"
+      label: "سور/آيات قصيرة",
+      description: "إدارة السور والآيات القصيرة",
+      color: "text-blue-600"
+    },
+    {
+      href: "/list2",
+      icon: ListOrdered,
+      label: "سور/آيات طويلة", 
+      description: "إدارة السور والآيات الطويلة",
+      color: "text-green-600"
+    },
+    {
+      href: "/list3",
+      icon: BookOpen,
+      label: "أيات مقترحة للحفظ",
+      description: "إدارة الآيات المقترحة للحفظ",
+      color: "text-purple-600"
     }
   ];
 
@@ -81,7 +96,7 @@ export default function Header() {
                           isActive ? "bg-blue-100" : "bg-gray-100"
                         }`}>
                           <Icon className={`h-4 w-4 ${
-                            isActive ? "text-blue-600" : "text-gray-600"
+                            isActive ? "text-blue-600" : item.color || "text-gray-600"
                           }`} />
                         </div>
                         <div className="flex-1">

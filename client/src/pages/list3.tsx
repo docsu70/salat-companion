@@ -10,98 +10,92 @@ import type { SelectionList } from "@shared/schema";
 
 export default function List3() {
   const { toast } = useToast();
-  const [input, setInput] = useState("");
+  const [newItem, setNewItem] = useState("");
 
-  const { data: lists = [], isLoading } = useQuery<SelectionList[]>({
+  const { data: lists = [], isLoading: listsLoading } = useQuery<SelectionList[]>({
     queryKey: ["/api/lists"],
   });
 
+  const list = lists.find(l => l.name === "أيات مقترحة للحفظ");
+
   const addItemMutation = useMutation({
-    mutationFn: async ({ listId, item }: { listId: string; item: string }) => {
-      const response = await apiRequest("POST", `/api/lists/${listId}/items`, { item });
+    mutationFn: async (item: string) => {
+      if (!list) throw new Error("List not found");
+      const response = await apiRequest("POST", `/api/lists/${list.id}/items`, {
+        item: item.trim(),
+      });
       return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
+      setNewItem("");
     },
     onError: (error: Error) => {
       toast({
-        title: "فشل في إضافة العنصر",
-        description: error.message,
+        title: "فشل في الإضافة",
+        description: error.message || "حدث خطأ",
         variant: "destructive",
       });
     },
   });
 
   const removeItemMutation = useMutation({
-    mutationFn: async ({ listId, index }: { listId: string; index: number }) => {
-      const response = await apiRequest("DELETE", `/api/lists/${listId}/items/${index}`);
+    mutationFn: async (index: number) => {
+      if (!list) throw new Error("List not found");
+      const response = await apiRequest("DELETE", `/api/lists/${list.id}/items/${index}`);
       return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
-      toast({
-        title: "تم حذف العنصر",
-        description: "تم حذف العنصر من القائمة بنجاح.",
-      });
     },
     onError: (error: Error) => {
       toast({
-        title: "فشل في حذف العنصر",
-        description: error.message,
+        title: "فشل في الحذف",
+        description: error.message || "حدث خطأ",
         variant: "destructive",
       });
     },
   });
 
   const clearListMutation = useMutation({
-    mutationFn: async (listId: string) => {
-      const response = await apiRequest("DELETE", `/api/lists/${listId}/items`);
+    mutationFn: async () => {
+      if (!list) throw new Error("List not found");
+      const response = await apiRequest("DELETE", `/api/lists/${list.id}/items`);
       return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
-      toast({
-        title: "تم مسح القائمة",
-        description: "تم حذف جميع العناصر من القائمة بنجاح.",
-      });
     },
     onError: (error: Error) => {
       toast({
-        title: "فشل في مسح القائمة",
-        description: error.message,
+        title: "فشل في المسح",
+        description: error.message || "حدث خطأ",
         variant: "destructive",
       });
     },
   });
 
-  const list3 = lists.find(l => l.name === "أيات مقترحة للحفظ");
-
-  const handleAdd = () => {
-    if (!input.trim() || !list3) return;
-    addItemMutation.mutate({ listId: list3.id, item: input.trim() });
-    setInput("");
+  const handleAddItem = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newItem.trim()) {
+      addItemMutation.mutate(newItem.trim());
+    }
   };
 
   const handleRemoveItem = (index: number) => {
-    if (!list3) return;
-    removeItemMutation.mutate({ listId: list3.id, index });
+    removeItemMutation.mutate(index);
   };
 
   const handleClearList = () => {
-    if (!list3) return;
-    if (window.confirm(`هل أنت متأكد من أنك تريد مسح جميع العناصر من أيات مقترحة للحفظ؟ لا يمكن التراجع عن هذا الإجراء.`)) {
-      clearListMutation.mutate(list3.id);
+    if (list && list.items.length > 0) {
+      const confirmClear = window.confirm(`هل تريد حقاً مسح جميع العناصر من "${list.name}"؟`);
+      if (confirmClear) {
+        clearListMutation.mutate();
+      }
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleAdd();
-    }
-  };
-
-  if (isLoading) {
+  if (listsLoading) {
     return (
       <div className="flex items-center justify-center py-12">
         <Loader2 className="h-8 w-8 animate-spin" />
@@ -109,41 +103,51 @@ export default function List3() {
     );
   }
 
+  if (!list) {
+    return (
+      <div className="text-center py-12">
+        <div className="text-red-600 mb-2">القائمة غير موجودة</div>
+        <div className="text-gray-500 text-sm">لم يتم العثور على قائمة "أيات مقترحة للحفظ"</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-4" dir="rtl">
-      <div className="text-center mb-4">
+    <div className="space-y-6" dir="rtl">
+      <div className="text-center">
         <h2 className="text-lg font-bold text-gray-900 mb-2">أيات مقترحة للحفظ</h2>
-        <p className="text-gray-600 text-sm">أضف أو احذف آيات مقترحة للحفظ</p>
+        <p className="text-gray-600 text-sm">أضف أو احذف الآيات المقترحة للحفظ</p>
       </div>
 
-      {/* List Management */}
+      {/* List Header */}
+      <div className="flex items-center space-x-2 space-x-reverse mb-3">
+        <div className="bg-purple-100 rounded-lg p-2">
+          <BookOpen className="h-5 w-5 text-purple-600" />
+        </div>
+        <div>
+          <h3 className="text-base font-semibold text-gray-900">أيات مقترحة للحفظ</h3>
+          <p className="text-xs text-gray-500">
+            {list.items.length} آية
+          </p>
+        </div>
+      </div>
+      
       <Card className="shadow-sm border border-gray-200">
         <CardHeader className="pb-3 border-b border-gray-200">
-          <div className="flex items-center space-x-2 space-x-reverse mb-3">
-            <div className="bg-purple-100 rounded-lg p-2">
-              <BookOpen className="text-purple-600 w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900">إدارة العناصر</h3>
-              <p className="text-xs text-gray-500">{list3?.items.length || 0} آية</p>
-            </div>
-          </div>
-          
           {/* Add Item Form */}
-          <div className="flex space-x-2 space-x-reverse">
+          <form onSubmit={handleAddItem} className="flex space-x-2 space-x-reverse">
             <Input
               type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="أضف آية للحفظ..."
-              className="flex-1 text-sm"
+              value={newItem}
+              onChange={(e) => setNewItem(e.target.value)}
+              placeholder="اكتب الآية المقترحة للحفظ..."
+              disabled={addItemMutation.isPending}
+              className="flex-1 text-right"
             />
             <Button 
-              onClick={handleAdd}
-              disabled={!input.trim() || addItemMutation.isPending}
-              className="bg-purple-600 hover:bg-purple-700 px-3"
-              size="sm"
+              type="submit"
+              disabled={!newItem.trim() || addItemMutation.isPending}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 text-xs"
             >
               {addItemMutation.isPending ? (
                 <Loader2 className="h-3 w-3 animate-spin" />
@@ -151,22 +155,27 @@ export default function List3() {
                 <Plus className="h-3 w-3" />
               )}
             </Button>
-          </div>
+          </form>
         </CardHeader>
-
-        {/* List Items */}
-        <CardContent className="p-3">
-          <div className="space-y-2 max-h-96 overflow-y-auto">
-            {list3?.items.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                <Inbox className="w-8 h-8 mx-auto mb-3 text-gray-400" />
-                <p className="text-sm">لا توجد آيات في هذه القائمة بعد</p>
-                <p className="text-xs text-gray-400 mt-1">أضف الآية الأولى باستخدام النموذج أعلاه</p>
+        
+        <CardContent className="p-4">
+          {/* Items List */}
+          <div className="space-y-2">
+            {list.items.length === 0 ? (
+              <div className="text-center py-8">
+                <Inbox className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                <div className="text-gray-500 text-sm">لا توجد عناصر في هذه القائمة بعد</div>
+                <div className="text-gray-400 text-xs mt-1">ابدأ بإضافة آية مقترحة للحفظ</div>
               </div>
             ) : (
-              list3?.items.map((item, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-purple-50 rounded-lg border">
-                  <span className="text-gray-900 text-sm flex-1 truncate pl-2 leading-relaxed">{item}</span>
+              list.items.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-2 bg-purple-50 rounded-lg border border-purple-100"
+                >
+                  <span className="text-gray-900 text-sm flex-1 truncate pl-2 leading-relaxed">
+                    {item}
+                  </span>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -184,7 +193,7 @@ export default function List3() {
       </Card>
 
       {/* Actions */}
-      {list3?.items.length ? (
+      {list.items.length > 0 && (
         <Card className="shadow-sm border border-gray-200">
           <CardContent className="p-3">
             <Button 
@@ -198,7 +207,7 @@ export default function List3() {
             </Button>
           </CardContent>
         </Card>
-      ) : null}
+      )}
     </div>
   );
 }

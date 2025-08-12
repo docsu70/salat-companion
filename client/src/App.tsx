@@ -6,6 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from "@/components/header";
 import Home from "@/pages/home";
 import AllLists from "@/pages/all-lists";
+import List1 from "@/pages/list1";
+import List2 from "@/pages/list2";
+import List3 from "@/pages/list3";
 import LoadingOverlay from "@/components/loading-overlay";
 import NotFound from "@/pages/not-found";
 
@@ -17,6 +20,9 @@ function Router() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/lists" component={AllLists} />
+          <Route path="/list1" component={List1} />
+          <Route path="/list2" component={List2} />
+          <Route path="/list3" component={List3} />
           <Route component={NotFound} />
         </Switch>
       </main>

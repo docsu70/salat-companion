@@ -4,104 +4,98 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { ListOrdered, Plus, Trash2, Loader2, Inbox } from "lucide-react";
+import { List as ListIcon, Plus, Trash2, Loader2, Inbox } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { SelectionList } from "@shared/schema";
 
 export default function List1() {
   const { toast } = useToast();
-  const [input, setInput] = useState("");
+  const [newItem, setNewItem] = useState("");
 
-  const { data: lists = [], isLoading } = useQuery<SelectionList[]>({
+  const { data: lists = [], isLoading: listsLoading } = useQuery<SelectionList[]>({
     queryKey: ["/api/lists"],
   });
 
+  const list = lists.find(l => l.name === "سور/آيات قصيرة");
+
   const addItemMutation = useMutation({
-    mutationFn: async ({ listId, item }: { listId: string; item: string }) => {
-      const response = await apiRequest("POST", `/api/lists/${listId}/items`, { item });
+    mutationFn: async (item: string) => {
+      if (!list) throw new Error("List not found");
+      const response = await apiRequest("POST", `/api/lists/${list.id}/items`, {
+        item: item.trim(),
+      });
       return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
+      setNewItem("");
     },
     onError: (error: Error) => {
       toast({
-        title: "فشل في إضافة العنصر",
-        description: error.message,
+        title: "فشل في الإضافة",
+        description: error.message || "حدث خطأ",
         variant: "destructive",
       });
     },
   });
 
   const removeItemMutation = useMutation({
-    mutationFn: async ({ listId, index }: { listId: string; index: number }) => {
-      const response = await apiRequest("DELETE", `/api/lists/${listId}/items/${index}`);
+    mutationFn: async (index: number) => {
+      if (!list) throw new Error("List not found");
+      const response = await apiRequest("DELETE", `/api/lists/${list.id}/items/${index}`);
       return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
-      toast({
-        title: "تم حذف العنصر",
-        description: "تم حذف العنصر من القائمة بنجاح.",
-      });
     },
     onError: (error: Error) => {
       toast({
-        title: "فشل في حذف العنصر",
-        description: error.message,
+        title: "فشل في الحذف",
+        description: error.message || "حدث خطأ",
         variant: "destructive",
       });
     },
   });
 
   const clearListMutation = useMutation({
-    mutationFn: async (listId: string) => {
-      const response = await apiRequest("DELETE", `/api/lists/${listId}/items`);
+    mutationFn: async () => {
+      if (!list) throw new Error("List not found");
+      const response = await apiRequest("DELETE", `/api/lists/${list.id}/items`);
       return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
-      toast({
-        title: "تم مسح القائمة",
-        description: "تم حذف جميع العناصر من القائمة بنجاح.",
-      });
     },
     onError: (error: Error) => {
       toast({
-        title: "فشل في مسح القائمة",
-        description: error.message,
+        title: "فشل في المسح",
+        description: error.message || "حدث خطأ",
         variant: "destructive",
       });
     },
   });
 
-  const list1 = lists.find(l => l.name === "List 1");
-
-  const handleAdd = () => {
-    if (!input.trim() || !list1) return;
-    addItemMutation.mutate({ listId: list1.id, item: input.trim() });
-    setInput("");
+  const handleAddItem = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newItem.trim()) {
+      addItemMutation.mutate(newItem.trim());
+    }
   };
 
   const handleRemoveItem = (index: number) => {
-    if (!list1) return;
-    removeItemMutation.mutate({ listId: list1.id, index });
+    removeItemMutation.mutate(index);
   };
 
   const handleClearList = () => {
-    if (!list1) return;
-    if (window.confirm(`هل أنت متأكد من أنك تريد مسح جميع العناصر من القائمة الأولى؟ لا يمكن التراجع عن هذا الإجراء.`)) {
-      clearListMutation.mutate(list1.id);
+    if (list && list.items.length > 0) {
+      const confirmClear = window.confirm(`هل تريد حقاً مسح جميع العناصر من "${list.name}"؟`);
+      if (confirmClear) {
+        clearListMutation.mutate();
+      }
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleAdd();
-    }
-  };
-
-  if (isLoading) {
+  if (listsLoading) {
     return (
       <div className="flex items-center justify-center py-12">
         <Loader2 className="h-8 w-8 animate-spin" />
@@ -109,41 +103,51 @@ export default function List1() {
     );
   }
 
+  if (!list) {
+    return (
+      <div className="text-center py-12">
+        <div className="text-red-600 mb-2">القائمة غير موجودة</div>
+        <div className="text-gray-500 text-sm">لم يتم العثور على قائمة "سور/آيات قصيرة"</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-4" dir="rtl">
-      <div className="text-center mb-4">
-        <h2 className="text-lg font-bold text-gray-900 mb-2">القائمة الأولى</h2>
-        <p className="text-gray-600 text-sm">أضف أو احذف عناصر من القائمة الأولى</p>
+    <div className="space-y-6" dir="rtl">
+      <div className="text-center">
+        <h2 className="text-lg font-bold text-gray-900 mb-2">سور/آيات قصيرة</h2>
+        <p className="text-gray-600 text-sm">أضف أو احذف السور والآيات القصيرة</p>
       </div>
 
-      {/* List Management */}
+      {/* List Header */}
+      <div className="flex items-center space-x-2 space-x-reverse mb-3">
+        <div className="bg-blue-100 rounded-lg p-2">
+          <ListIcon className="h-5 w-5 text-blue-600" />
+        </div>
+        <div>
+          <h3 className="text-base font-semibold text-gray-900">سور/آيات قصيرة</h3>
+          <p className="text-xs text-gray-500">
+            {list.items.length} سورة/آية
+          </p>
+        </div>
+      </div>
+      
       <Card className="shadow-sm border border-gray-200">
         <CardHeader className="pb-3 border-b border-gray-200">
-          <div className="flex items-center space-x-2 space-x-reverse mb-3">
-            <div className="bg-blue-100 rounded-lg p-2">
-              <ListOrdered className="text-primary w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900">إدارة العناصر</h3>
-              <p className="text-xs text-gray-500">{list1?.items.length || 0} عنصر</p>
-            </div>
-          </div>
-          
           {/* Add Item Form */}
-          <div className="flex space-x-2 space-x-reverse">
+          <form onSubmit={handleAddItem} className="flex space-x-2 space-x-reverse">
             <Input
               type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="أضف عنصر جديد..."
-              className="flex-1 text-sm"
+              value={newItem}
+              onChange={(e) => setNewItem(e.target.value)}
+              placeholder="اكتب اسم السورة أو الآية..."
+              disabled={addItemMutation.isPending}
+              className="flex-1 text-right"
             />
             <Button 
-              onClick={handleAdd}
-              disabled={!input.trim() || addItemMutation.isPending}
-              className="bg-primary hover:bg-blue-600 px-3"
-              size="sm"
+              type="submit"
+              disabled={!newItem.trim() || addItemMutation.isPending}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-xs"
             >
               {addItemMutation.isPending ? (
                 <Loader2 className="h-3 w-3 animate-spin" />
@@ -151,22 +155,27 @@ export default function List1() {
                 <Plus className="h-3 w-3" />
               )}
             </Button>
-          </div>
+          </form>
         </CardHeader>
-
-        {/* List Items */}
-        <CardContent className="p-3">
-          <div className="space-y-2 max-h-96 overflow-y-auto">
-            {list1?.items.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                <Inbox className="w-8 h-8 mx-auto mb-3 text-gray-400" />
-                <p className="text-sm">لا توجد عناصر في هذه القائمة بعد</p>
-                <p className="text-xs text-gray-400 mt-1">أضف العنصر الأول باستخدام النموذج أعلاه</p>
+        
+        <CardContent className="p-4">
+          {/* Items List */}
+          <div className="space-y-2">
+            {list.items.length === 0 ? (
+              <div className="text-center py-8">
+                <Inbox className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                <div className="text-gray-500 text-sm">لا توجد عناصر في هذه القائمة بعد</div>
+                <div className="text-gray-400 text-xs mt-1">ابدأ بإضافة سورة أو آية</div>
               </div>
             ) : (
-              list1?.items.map((item, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border">
-                  <span className="text-gray-900 text-sm flex-1 truncate pl-2">{item}</span>
+              list.items.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-2 bg-blue-50 rounded-lg border border-blue-100"
+                >
+                  <span className="text-gray-900 text-sm flex-1 truncate pl-2">
+                    {item}
+                  </span>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -184,7 +193,7 @@ export default function List1() {
       </Card>
 
       {/* Actions */}
-      {list1?.items.length ? (
+      {list.items.length > 0 && (
         <Card className="shadow-sm border border-gray-200">
           <CardContent className="p-3">
             <Button 
@@ -198,7 +207,7 @@ export default function List1() {
             </Button>
           </CardContent>
         </Card>
-      ) : null}
+      )}
     </div>
   );
 }
