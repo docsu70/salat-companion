@@ -10,6 +10,7 @@ import type { SelectionList } from "@shared/schema";
 interface SelectionResult {
   list1: string;
   list2: string;
+  list3: string;
 }
 
 export default function Home() {
@@ -39,6 +40,7 @@ export default function Home() {
 
   const list1 = lists.find(l => l.name === "سور/آيات قصيرة");
   const list2 = lists.find(l => l.name === "سور/آيات طويلة");
+  const list3 = lists.find(l => l.name === "أيات مقترحة للحفظ");
 
   const handleGenerate = () => {
     generateMutation.mutate();
@@ -102,6 +104,21 @@ export default function Home() {
             <div className="min-h-[40px] flex items-center justify-center bg-[white] text-[black]">
               {selections?.list2 ? (
                 <div className="text-base font-bold text-success px-2 py-1 bg-green-50 rounded">{selections.list2}</div>
+              ) : (
+                <div className="text-gray-400 text-xs">لا يوجد اختيار بعد</div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* List 3 Result */}
+        <Card className="shadow-sm border border-gray-200">
+          <CardContent className="p-4 text-center bg-[#d3ded8]">
+            
+            <h3 className="text-sm font-semibold text-gray-900 mb-2">أيات مقترحة للحفظ</h3>
+            <div className="min-h-[40px] flex items-center justify-center bg-[white] text-[black]">
+              {selections?.list3 ? (
+                <div className="text-base font-bold px-2 py-1 bg-purple-50 rounded" style={{ color: '#7c3aed' }}>{selections.list3}</div>
               ) : (
                 <div className="text-gray-400 text-xs">لا يوجد اختيار بعد</div>
               )}

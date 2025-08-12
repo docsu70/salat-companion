@@ -119,31 +119,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const lists = await storage.getAllSelectionLists();
       const list1 = lists.find(l => l.name === "سور/آيات قصيرة");
       const list2 = lists.find(l => l.name === "سور/آيات طويلة");
+      const list3 = lists.find(l => l.name === "أيات مقترحة للحفظ");
 
-      if (!list1 || !list2) {
+      if (!list1 || !list2 || !list3) {
         return res.status(404).json({ message: "Required lists not found" });
       }
 
-      if (list1.items.length === 0 || list2.items.length === 0) {
+      if (list1.items.length === 0 || list2.items.length === 0 || list3.items.length === 0) {
         return res.status(400).json({ message: "حدث خطأ" });
       }
 
       // Get current selection cycle
       const currentCycle = await storage.getCurrentCycle();
 
-      // Get unselected items from both lists
+      // Get unselected items from all three lists
       const unselectedList1 = await storage.getUnselectedItems(list1.id, currentCycle);
       const unselectedList2 = await storage.getUnselectedItems(list2.id, currentCycle);
+      const unselectedList3 = await storage.getUnselectedItems(list3.id, currentCycle);
 
-      // If either list has no unselected items, reset the cycle and start fresh
-      if (unselectedList1.length === 0 || unselectedList2.length === 0) {
+      // If any list has no unselected items, reset the cycle and start fresh
+      if (unselectedList1.length === 0 || unselectedList2.length === 0 || unselectedList3.length === 0) {
         const newCycle = await storage.resetSelectionCycle();
         const freshList1 = [...list1.items];
         const freshList2 = [...list2.items];
+        const freshList3 = [...list3.items];
 
         // Make selections from fresh lists
         const list1Selection = freshList1[Math.floor(Math.random() * freshList1.length)];
         const list2Selection = freshList2[Math.floor(Math.random() * freshList2.length)];
+        const list3Selection = freshList3[Math.floor(Math.random() * freshList3.length)];
 
         // Record the selections in the new cycle
         await storage.addSelectionToHistory({
@@ -158,15 +162,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
           selectionCycle: newCycle
         });
 
+        await storage.addSelectionToHistory({
+          listId: list3.id,
+          selectedItem: list3Selection,
+          selectionCycle: newCycle
+        });
+
         return res.json({
           list1: list1Selection,
-          list2: list2Selection
+          list2: list2Selection,
+          list3: list3Selection
         });
       }
 
       // Make selections from unselected items
       const list1Selection = unselectedList1[Math.floor(Math.random() * unselectedList1.length)];
       const list2Selection = unselectedList2[Math.floor(Math.random() * unselectedList2.length)];
+      const list3Selection = unselectedList3[Math.floor(Math.random() * unselectedList3.length)];
 
       // Record the selections in the current cycle
       await storage.addSelectionToHistory({
@@ -181,9 +193,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         selectionCycle: currentCycle
       });
 
+      await storage.addSelectionToHistory({
+        listId: list3.id,
+        selectedItem: list3Selection,
+        selectionCycle: currentCycle
+      });
+
       res.json({
         list1: list1Selection,
-        list2: list2Selection
+        list2: list2Selection,
+        list3: list3Selection
       });
     } catch (error) {
       console.error("Selection generation error:", error);
