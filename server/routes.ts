@@ -116,7 +116,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Generate random selections with "select once until all selected" logic
   app.post("/api/generate-selections", async (_req, res) => {
     try {
-      const lists = await storage.getAllSelectionLists();
+      // Optimize by getting lists and cycle in parallel
+      const [lists, currentCycle] = await Promise.all([
+        storage.getAllSelectionLists(),
+        storage.getCurrentCycle()
+      ]);
+
       const list1 = lists.find(l => l.name === "سور/آيات قصيرة");
       const list2 = lists.find(l => l.name === "سور/آيات طويلة");
       const list3 = lists.find(l => l.name === "أيات مقترحة للحفظ");
@@ -129,75 +134,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "حدث خطأ" });
       }
 
-      // Get current selection cycle
-      const currentCycle = await storage.getCurrentCycle();
+      // Get unselected items from all three lists in parallel
+      const [unselectedList1, unselectedList2, unselectedList3] = await Promise.all([
+        storage.getUnselectedItems(list1.id, currentCycle),
+        storage.getUnselectedItems(list2.id, currentCycle),
+        storage.getUnselectedItems(list3.id, currentCycle)
+      ]);
 
-      // Get unselected items from all three lists
-      const unselectedList1 = await storage.getUnselectedItems(list1.id, currentCycle);
-      const unselectedList2 = await storage.getUnselectedItems(list2.id, currentCycle);
-      const unselectedList3 = await storage.getUnselectedItems(list3.id, currentCycle);
+      let list1Selection: string, list2Selection: string, list3Selection: string;
+      let cycleToUse = currentCycle;
 
       // If any list has no unselected items, reset the cycle and start fresh
       if (unselectedList1.length === 0 || unselectedList2.length === 0 || unselectedList3.length === 0) {
-        const newCycle = await storage.resetSelectionCycle();
-        const freshList1 = [...list1.items];
-        const freshList2 = [...list2.items];
-        const freshList3 = [...list3.items];
-
+        cycleToUse = await storage.resetSelectionCycle();
+        
         // Make selections from fresh lists
-        const list1Selection = freshList1[Math.floor(Math.random() * freshList1.length)];
-        const list2Selection = freshList2[Math.floor(Math.random() * freshList2.length)];
-        const list3Selection = freshList3[Math.floor(Math.random() * freshList3.length)];
-
-        // Record the selections in the new cycle
-        await storage.addSelectionToHistory({
-          listId: list1.id,
-          selectedItem: list1Selection,
-          selectionCycle: newCycle
-        });
-
-        await storage.addSelectionToHistory({
-          listId: list2.id,
-          selectedItem: list2Selection,
-          selectionCycle: newCycle
-        });
-
-        await storage.addSelectionToHistory({
-          listId: list3.id,
-          selectedItem: list3Selection,
-          selectionCycle: newCycle
-        });
-
-        return res.json({
-          list1: list1Selection,
-          list2: list2Selection,
-          list3: list3Selection
-        });
+        list1Selection = list1.items[Math.floor(Math.random() * list1.items.length)];
+        list2Selection = list2.items[Math.floor(Math.random() * list2.items.length)];
+        list3Selection = list3.items[Math.floor(Math.random() * list3.items.length)];
+      } else {
+        // Make selections from unselected items
+        list1Selection = unselectedList1[Math.floor(Math.random() * unselectedList1.length)];
+        list2Selection = unselectedList2[Math.floor(Math.random() * unselectedList2.length)];
+        list3Selection = unselectedList3[Math.floor(Math.random() * unselectedList3.length)];
       }
 
-      // Make selections from unselected items
-      const list1Selection = unselectedList1[Math.floor(Math.random() * unselectedList1.length)];
-      const list2Selection = unselectedList2[Math.floor(Math.random() * unselectedList2.length)];
-      const list3Selection = unselectedList3[Math.floor(Math.random() * unselectedList3.length)];
-
-      // Record the selections in the current cycle
-      await storage.addSelectionToHistory({
-        listId: list1.id,
-        selectedItem: list1Selection,
-        selectionCycle: currentCycle
-      });
-
-      await storage.addSelectionToHistory({
-        listId: list2.id,
-        selectedItem: list2Selection,
-        selectionCycle: currentCycle
-      });
-
-      await storage.addSelectionToHistory({
-        listId: list3.id,
-        selectedItem: list3Selection,
-        selectionCycle: currentCycle
-      });
+      // Record the selections in parallel
+      await Promise.all([
+        storage.addSelectionToHistory({
+          listId: list1.id,
+          selectedItem: list1Selection,
+          selectionCycle: cycleToUse
+        }),
+        storage.addSelectionToHistory({
+          listId: list2.id,
+          selectedItem: list2Selection,
+          selectionCycle: cycleToUse
+        }),
+        storage.addSelectionToHistory({
+          listId: list3.id,
+          selectedItem: list3Selection,
+          selectionCycle: cycleToUse
+        })
+      ]);
 
       res.json({
         list1: list1Selection,

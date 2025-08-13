@@ -59,8 +59,7 @@ export default function List3() {
       return await response.json();
     },
     onMutate: (index: number) => {
-      // Add to deleting items set
-      setDeletingItems(prev => new Set(Array.from(prev).concat(index)));
+      // This will be handled in handleRemoveItem to prevent double-setting
     },
     onSuccess: (_, index) => {
       // Remove from deleting items
@@ -120,6 +119,10 @@ export default function List3() {
     if (deletingItems.has(index) || removeItemMutation.isPending) {
       return;
     }
+    
+    // Immediately add to deleting set to prevent rapid clicks
+    setDeletingItems(prev => new Set(Array.from(prev).concat(index)));
+    
     removeItemMutation.mutate(index);
   };
 
@@ -210,8 +213,8 @@ export default function List3() {
                 return (
                   <div
                     key={`${index}-${item}`}
-                    className={`flex items-center justify-between p-2 bg-purple-50 rounded-lg border border-purple-100 transition-opacity ${
-                      isDeleting ? "opacity-50" : "opacity-100"
+                    className={`flex items-center justify-between p-2 bg-purple-50 rounded-lg border border-purple-100 transition-all ${
+                      isDeleting ? "opacity-50 pointer-events-none" : "opacity-100"
                     }`}
                   >
                     <span className="text-gray-900 text-sm flex-1 truncate pl-2 leading-relaxed">
