@@ -80,7 +80,7 @@ export class DatabaseStorage implements IStorage {
       .insert(selectionLists)
       .values({
         name: insertList.name,
-        items: insertList.items ? Array.from(insertList.items) : []
+        items: insertList.items || []
       })
       .returning();
     return list;
