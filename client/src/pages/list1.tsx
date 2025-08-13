@@ -11,6 +11,7 @@ import type { SelectionList } from "@shared/schema";
 export default function List1() {
   const { toast } = useToast();
   const [newItem, setNewItem] = useState("");
+  const [deletingItems, setDeletingItems] = useState(new Set<number>());
 
   const { data: lists = [], isLoading: listsLoading } = useQuery<SelectionList[]>({
     queryKey: ["/api/lists"],
@@ -57,43 +58,30 @@ export default function List1() {
       
       return await response.json();
     },
-    onMutate: async (index: number) => {
-      // Cancel any outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ["/api/lists"] });
-      
-      // Snapshot the previous value
-      const previousLists = queryClient.getQueryData(["/api/lists"]);
-      
-      // Optimistically update to remove the item
-      queryClient.setQueryData(["/api/lists"], (old: any[]) => {
-        if (!old || !list) return old;
-        
-        return old.map((l: any) => {
-          if (l.id === list.id) {
-            return {
-              ...l,
-              items: l.items.filter((_: any, i: number) => i !== index)
-            };
-          }
-          return l;
-        });
-      });
-      
-      return { previousLists };
+    onMutate: (index: number) => {
+      // Add to deleting items set
+      setDeletingItems(prev => new Set(Array.from(prev).concat(index)));
     },
-    onSuccess: () => {
+    onSuccess: (_, index) => {
+      // Remove from deleting items
+      setDeletingItems(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(index);
+        return newSet;
+      });
       toast({
         title: "تم الحذف",
         description: "تم حذف العنصر بنجاح",
       });
-      // Refetch to ensure consistency
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
     },
-    onError: (error: Error, _index, context) => {
-      // Rollback on error
-      if (context?.previousLists) {
-        queryClient.setQueryData(["/api/lists"], context.previousLists);
-      }
+    onError: (error: Error, index) => {
+      // Remove from deleting items on error
+      setDeletingItems(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(index);
+        return newSet;
+      });
       toast({
         title: "فشل في الحذف",
         description: error.message || "حدث خطأ في حذف العنصر",
@@ -128,6 +116,10 @@ export default function List1() {
   };
 
   const handleRemoveItem = (index: number) => {
+    // Prevent multiple delete attempts
+    if (deletingItems.has(index) || removeItemMutation.isPending) {
+      return;
+    }
     removeItemMutation.mutate(index);
   };
 
@@ -213,25 +205,34 @@ export default function List1() {
                 <div className="text-gray-400 text-xs mt-1">ابدأ بإضافة سور أو آيات</div>
               </div>
             ) : (
-              list.items.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between p-2 bg-blue-50 rounded-lg border border-blue-100"
-                >
-                  <span className="text-gray-900 text-sm flex-1 truncate pl-2">
-                    {item}
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleRemoveItem(index)}
-                    disabled={removeItemMutation.isPending}
-                    className="text-red-500 hover:text-red-700 p-1 min-w-0"
+              list.items.map((item, index) => {
+                const isDeleting = deletingItems.has(index);
+                return (
+                  <div
+                    key={`${index}-${item}`}
+                    className={`flex items-center justify-between p-2 bg-blue-50 rounded-lg border border-blue-100 transition-opacity ${
+                      isDeleting ? "opacity-50" : "opacity-100"
+                    }`}
                   >
-                    <Trash2 className="h-3 w-3" />
-                  </Button>
-                </div>
-              ))
+                    <span className="text-gray-900 text-sm flex-1 truncate pl-2">
+                      {item}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleRemoveItem(index)}
+                      disabled={isDeleting}
+                      className="text-red-500 hover:text-red-700 p-1 min-w-0 disabled:opacity-30"
+                    >
+                      {isDeleting ? (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      ) : (
+                        <Trash2 className="h-3 w-3" />
+                      )}
+                    </Button>
+                  </div>
+                );
+              })
             )}
           </div>
         </CardContent>
