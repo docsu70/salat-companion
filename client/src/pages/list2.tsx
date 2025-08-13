@@ -57,14 +57,43 @@ export default function List2() {
       
       return await response.json();
     },
+    onMutate: async (index: number) => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["/api/lists"] });
+      
+      // Snapshot the previous value
+      const previousLists = queryClient.getQueryData(["/api/lists"]);
+      
+      // Optimistically update to remove the item
+      queryClient.setQueryData(["/api/lists"], (old: any[]) => {
+        if (!old || !list) return old;
+        
+        return old.map((l: any) => {
+          if (l.id === list.id) {
+            return {
+              ...l,
+              items: l.items.filter((_: any, i: number) => i !== index)
+            };
+          }
+          return l;
+        });
+      });
+      
+      return { previousLists };
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
       toast({
         title: "تم الحذف",
         description: "تم حذف العنصر بنجاح",
       });
+      // Refetch to ensure consistency
+      queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
     },
-    onError: (error: Error) => {
+    onError: (error: Error, _index, context) => {
+      // Rollback on error
+      if (context?.previousLists) {
+        queryClient.setQueryData(["/api/lists"], context.previousLists);
+      }
       toast({
         title: "فشل في الحذف",
         description: error.message || "حدث خطأ في حذف العنصر",
