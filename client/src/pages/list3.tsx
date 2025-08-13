@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ export default function List3() {
   const { toast } = useToast();
   const [newItem, setNewItem] = useState("");
   const [deletingItems, setDeletingItems] = useState(new Set<number>());
+  const deletionLockRef = useRef(new Set<string>());
 
   const { data: lists = [], isLoading: listsLoading } = useQuery<SelectionList[]>({
     queryKey: ["/api/lists"],
@@ -62,7 +63,11 @@ export default function List3() {
       // This will be handled in handleRemoveItem to prevent double-setting
     },
     onSuccess: (_, index) => {
-      // Remove from deleting items
+      if (!list) return;
+      const lockKey = `${list.id}-${index}`;
+      
+      // Remove from both lock and state
+      deletionLockRef.current.delete(lockKey);
       setDeletingItems(prev => {
         const newSet = new Set(prev);
         newSet.delete(index);
@@ -75,7 +80,11 @@ export default function List3() {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
     },
     onError: (error: Error, index) => {
-      // Remove from deleting items on error
+      if (!list) return;
+      const lockKey = `${list.id}-${index}`;
+      
+      // Remove from both lock and state on error
+      deletionLockRef.current.delete(lockKey);
       setDeletingItems(prev => {
         const newSet = new Set(prev);
         newSet.delete(index);
@@ -115,12 +124,17 @@ export default function List3() {
   };
 
   const handleRemoveItem = (index: number) => {
-    // Prevent multiple delete attempts
-    if (deletingItems.has(index) || removeItemMutation.isPending) {
+    if (!list) return;
+    
+    const lockKey = `${list.id}-${index}`;
+    
+    // Check if this specific item is already being deleted
+    if (deletionLockRef.current.has(lockKey) || deletingItems.has(index) || removeItemMutation.isPending) {
       return;
     }
     
-    // Immediately add to deleting set to prevent rapid clicks
+    // Add to both lock and state
+    deletionLockRef.current.add(lockKey);
     setDeletingItems(prev => new Set(Array.from(prev).concat(index)));
     
     removeItemMutation.mutate(index);
