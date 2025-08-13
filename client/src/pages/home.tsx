@@ -57,7 +57,8 @@ export default function Home() {
   return (
     <div className="space-y-4" dir="rtl">
       <div className="text-center mb-4">
-        <p className="text-gray-600 text-sm">اضغط على الزر لاختيار سور/آيات عشوائية للصلاة أو الحفظ والمراجعة</p>
+        <p className="text-gray-600 text-sm">تجنب تكرار نفس السور في الصلوات 
+اضغط على الزر لاختيار سور وآيات عشوائية للصلاة أو الحفظ</p>
       </div>
       {/* Generate Button */}
       <div className="text-center mb-6">
