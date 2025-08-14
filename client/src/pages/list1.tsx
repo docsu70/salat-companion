@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { List as ListIcon, Plus, Trash2, Loader2, Inbox } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { BackToTop } from "@/components/back-to-top";
 import type { SelectionList } from "@shared/schema";
 
 export default function List1() {
@@ -169,7 +170,9 @@ export default function List1() {
   }
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <>
+      <BackToTop />
+      <div className="space-y-6" dir="rtl">
       <div className="text-center">
         <h2 className="text-lg font-bold text-gray-900 mb-2">سور/آيات قصيرة</h2>
         <p className="text-gray-600 text-sm">خصص القائمة بإضافة أو حذف السور/الآيات </p>
@@ -273,6 +276,7 @@ export default function List1() {
           </CardContent>
         </Card>
       )}
-    </div>
+      </div>
+    </>
   );
 }
