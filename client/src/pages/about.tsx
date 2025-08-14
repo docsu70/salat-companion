@@ -62,7 +62,7 @@ export default function About() {
           <CardHeader>
             <div className="flex items-center gap-3">
               <BookOpen className="h-6 w-6 text-blue-600" />
-              <CardTitle>مميزات التطبيق</CardTitle>
+              <CardTitle>مميزات رفيق الصلاة</CardTitle>
             </div>
           
           </CardHeader>
