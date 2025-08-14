@@ -33,7 +33,6 @@ export default function List1() {
       setNewItem("");
       toast({
         title: "أُضيف العنصر بنجاح",
-        
         duration: 1500,
       });
     },
@@ -80,7 +79,6 @@ export default function List1() {
       });
       toast({
         title: "حُذف العنصر بنجاح",
-        
         duration: 1500,
       });
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
@@ -97,7 +95,6 @@ export default function List1() {
         return newSet;
       });
       toast({
-        
         description: error.message || "حدث خطأ في حذف العنصر",
         variant: "destructive",
       });
@@ -115,7 +112,6 @@ export default function List1() {
     },
     onError: (error: Error) => {
       toast({
-        
         description: error.message || "حدث خطأ",
         variant: "destructive",
       });
