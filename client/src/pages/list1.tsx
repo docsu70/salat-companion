@@ -32,9 +32,9 @@ export default function List1() {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
       setNewItem("");
       toast({
-        title: "تم الإضافة",
-        description: "تم إضافة العنصر بنجاح",
-        duration: 1000,
+        title: "أُضيف العنصر بنجاح",
+        
+        duration: 1500,
       });
     },
     onError: (error: Error) => {
@@ -79,9 +79,9 @@ export default function List1() {
         return newSet;
       });
       toast({
-        title: "تم الحذف",
-        description: "تم حذف العنصر بنجاح",
-        duration: 1000,
+        title: "حُذف العنصر بنجاح",
+        
+        duration: 1500,
       });
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
     },
@@ -97,7 +97,7 @@ export default function List1() {
         return newSet;
       });
       toast({
-        title: "فشل في الحذف",
+        
         description: error.message || "حدث خطأ في حذف العنصر",
         variant: "destructive",
       });
@@ -115,7 +115,7 @@ export default function List1() {
     },
     onError: (error: Error) => {
       toast({
-        title: "فشل في المسح",
+        
         description: error.message || "حدث خطأ",
         variant: "destructive",
       });
