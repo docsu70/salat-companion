@@ -132,6 +132,11 @@ export default function Home() {
         <p className="text-gray-600 text-sm">يمكنك تخصيص القوائم بإضافة آيات/سور أو حذفها</p>
         <p className="text-gray-600 text-sm">في صفحة الإدارة لكل قائمة</p>
       </div>
+      
+      {/* Quranic verse */}
+      <div className="text-center mt-6">
+        <p className="text-gray-600 text-lg">﴿فَٱقْرَءُواْ مَا تَيَسَّرَ مِنَ ٱلْقُرْءَانِ﴾</p>
+      </div>
     </div>
   );
 }

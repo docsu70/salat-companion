@@ -91,10 +91,6 @@ export default function About() {
       {/* Contact/Support */}
       <p className="text-center text-gray-700 leading-relaxed">
         نسأل الله أن يجعل هذا العمل خالصاً لوجهه الكريم، وأن ينفع به كل من استخدمه  
-        <br />
-        <span className="text-sm text-gray-500 mt-2 block">
-          ﴿ وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا ﴾
-        </span>
       </p>
     </div>
   );
