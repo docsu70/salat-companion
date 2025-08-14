@@ -31,9 +31,7 @@ export default function About() {
       {/* Header Section */}
       <div className="text-right mb-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-4">حول رفيق الصلاة</h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-           صمم هذا التطبيق البسيط لمساعدة المستخدم في اختيار سور وآيات للصلاة أو للحفظ والمراجعة
-                </p>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">رفيق الصلاة تطبيق بسيط صُمم لمساعدة المستخدم في اختيار سور وآيات للصلاة أو للحفظ والمراجعة</p>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">استخدم التطبيق في أوقات الصلاة لتفادي تكرار نفس السور القصيرة وليساعدك التطبيق على مداومة مراجعة السور والآيات التي تحفظها
         </p>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto"> نسعد بتلقي ملاحظاتكم لتحسين هذا التطبيق
