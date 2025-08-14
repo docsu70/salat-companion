@@ -24,6 +24,11 @@ export default function AllLists() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
+      toast({
+        title: "تم الإضافة",
+        description: "تم إضافة العنصر بنجاح",
+        duration: 1000,
+      });
     },
     onError: (error: Error) => {
       toast({
@@ -44,6 +49,7 @@ export default function AllLists() {
       toast({
         title: "تم حذف العنصر",
         description: "تم حذف العنصر من القائمة بنجاح.",
+        duration: 1000,
       });
     },
     onError: (error: Error) => {
@@ -65,6 +71,7 @@ export default function AllLists() {
       toast({
         title: "تم مسح القائمة",
         description: "تم حذف جميع العناصر من القائمة بنجاح.",
+        duration: 1000,
       });
     },
     onError: (error: Error) => {

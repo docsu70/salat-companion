@@ -27,6 +27,7 @@ export default function Lists() {
       toast({
         title: "تم إضافة العنصر",
         description: "تم إضافة العنصر إلى القائمة بنجاح.",
+        duration: 1000,
       });
     },
     onError: (error: Error) => {
@@ -48,6 +49,7 @@ export default function Lists() {
       toast({
         title: "تم حذف العنصر",
         description: "تم حذف العنصر من القائمة بنجاح.",
+        duration: 1000,
       });
     },
     onError: (error: Error) => {

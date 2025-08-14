@@ -31,6 +31,11 @@ export default function List2() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
       setNewItem("");
+      toast({
+        title: "تم الإضافة",
+        description: "تم إضافة العنصر بنجاح",
+        duration: 1000,
+      });
     },
     onError: (error: Error) => {
       toast({
@@ -76,6 +81,7 @@ export default function List2() {
       toast({
         title: "تم الحذف",
         description: "تم حذف العنصر بنجاح",
+        duration: 1000,
       });
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
     },
