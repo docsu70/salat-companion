@@ -65,8 +65,24 @@ export default function List1() {
       
       return await response.json();
     },
-    onMutate: (index: number) => {
-      // This will be handled in handleRemoveItem to prevent double-setting
+    onMutate: async (index: number) => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["/api/lists"] });
+      
+      // Snapshot the previous value
+      const previousLists = queryClient.getQueryData(["/api/lists"]);
+      
+      // Optimistically update to the new value
+      if (list && previousLists) {
+        const updatedLists = (previousLists as any[]).map(l => 
+          l.id === list.id 
+            ? { ...l, items: l.items.filter((_: any, i: number) => i !== index) }
+            : l
+        );
+        queryClient.setQueryData(["/api/lists"], updatedLists);
+      }
+      
+      return { previousLists };
     },
     onSuccess: (_, index) => {
       if (!list) return;
@@ -83,10 +99,16 @@ export default function List1() {
         title: "حُذف العنصر بنجاح",
         duration: 1500,
       });
+      
+      // Refetch to ensure consistency with server
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
-      queryClient.refetchQueries({ queryKey: ["/api/lists"] });
     },
-    onError: (error: Error, index) => {
+    onError: (error: Error, index, context) => {
+      // Rollback on error
+      if (context?.previousLists) {
+        queryClient.setQueryData(["/api/lists"], context.previousLists);
+      }
+      
       if (!list) return;
       const lockKey = `${list.id}-${index}`;
       
