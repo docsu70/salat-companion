@@ -14,9 +14,9 @@ Language: Arabic with RTL (right-to-left) layout
 
 ### List Content Updates & CRUD Functionality Fixes
 - **Updated "سور/آيات قصيرة" list** with 20 authentic short Quranic surahs per user specification
+- **Updated "سور/آيات طويلة" list** with 24 authentic long Quranic verses and passages per user specification
 - **Fixed critical deletion and addition issues** that prevented proper list management
 - **Resolved cache synchronization problems** using dual approach (direct cache updates + invalidation)
-- **Restored missing content** to "سور/آيات طويلة" list with 25 authentic Quranic verses
 - **Enhanced React Query configuration** by changing staleTime from Infinity to 0 for immediate data refresh
 - All CRUD operations now work consistently across all three list pages with instant UI updates
 
