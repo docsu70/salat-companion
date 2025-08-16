@@ -78,15 +78,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const index = parseInt(req.params.index);
       if (isNaN(index) || index < 0) {
+        console.log("Invalid index:", req.params.index, "parsed:", index);
         return res.status(400).json({ message: "Invalid item index" });
       }
 
       const list = await storage.getSelectionList(req.params.id);
       if (!list) {
+        console.log("List not found:", req.params.id);
         return res.status(404).json({ message: "List not found" });
       }
 
       if (index >= list.items.length) {
+        console.log("Index out of bounds:", index, "list length:", list.items.length);
         return res.status(400).json({ message: "Item index out of bounds" });
       }
 
@@ -94,6 +97,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const updatedList = await storage.updateSelectionList(req.params.id, { items: updatedItems });
       res.json(updatedList);
     } catch (error) {
+      console.error("Delete item error:", error);
       res.status(500).json({ message: "Failed to remove item" });
     }
   });
@@ -131,6 +135,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       if (list1.items.length === 0 || list2.items.length === 0 || list3.items.length === 0) {
+        console.log("Empty lists detected:", {
+          list1Count: list1.items.length,
+          list2Count: list2.items.length,
+          list3Count: list3.items.length
+        });
         return res.status(400).json({ message: "حدث خطأ" });
       }
 
@@ -185,7 +194,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error("Selection generation error:", error);
-      res.status(500).json({ message: "Failed to generate selections" });
+      res.status(400).json({ message: "حدث خطأ" });
     }
   });
 

@@ -81,7 +81,7 @@ export class DatabaseStorage implements IStorage {
       .values({
         name: insertList.name,
         items: insertList.items || []
-      })
+      } as any)
       .returning();
     return list;
   }
