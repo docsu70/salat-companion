@@ -31,6 +31,7 @@ export default function List1() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
+      queryClient.refetchQueries({ queryKey: ["/api/lists"] });
       setNewItem("");
       toast({
         title: "أُضيف العنصر بنجاح",
@@ -83,6 +84,7 @@ export default function List1() {
         duration: 1500,
       });
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
+      queryClient.refetchQueries({ queryKey: ["/api/lists"] });
     },
     onError: (error: Error, index) => {
       if (!list) return;
@@ -110,6 +112,7 @@ export default function List1() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
+      queryClient.refetchQueries({ queryKey: ["/api/lists"] });
     },
     onError: (error: Error) => {
       toast({

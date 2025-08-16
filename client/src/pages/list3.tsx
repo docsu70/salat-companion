@@ -31,6 +31,7 @@ export default function List3() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
+      queryClient.refetchQueries({ queryKey: ["/api/lists"] });
       setNewItem("");
       toast({
         title: "تم الإضافة",
@@ -85,6 +86,7 @@ export default function List3() {
         duration: 1000,
       });
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
+      queryClient.refetchQueries({ queryKey: ["/api/lists"] });
     },
     onError: (error: Error, index) => {
       if (!list) return;
@@ -113,6 +115,7 @@ export default function List3() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
+      queryClient.refetchQueries({ queryKey: ["/api/lists"] });
     },
     onError: (error: Error) => {
       toast({
