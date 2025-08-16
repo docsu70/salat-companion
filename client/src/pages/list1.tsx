@@ -29,9 +29,14 @@ export default function List1() {
       });
       return await response.json();
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
-      queryClient.refetchQueries({ queryKey: ["/api/lists"] });
+    onSuccess: (updatedList) => {
+      // Immediately set the updated data from server response
+      queryClient.setQueryData(["/api/lists"], (prevLists: any) => {
+        if (!prevLists) return prevLists;
+        return prevLists.map((l: any) => 
+          l.id === list?.id ? updatedList : l
+        );
+      });
       setNewItem("");
       toast({
         title: "أُضيف العنصر بنجاح",
@@ -51,44 +56,20 @@ export default function List1() {
     mutationFn: async (index: number) => {
       if (!list) throw new Error("List not found");
       
-      // Validate index before making request
-      if (index < 0 || index >= list.items.length) {
-        throw new Error("Invalid item index");
-      }
-      
       const response = await apiRequest("DELETE", `/api/lists/${list.id}/items/${index}`);
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to delete item");
-      }
-      
-      return await response.json();
+      const result = await response.json();
+      return result;
     },
-    onMutate: async (index: number) => {
-      // Cancel any outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ["/api/lists"] });
-      
-      // Snapshot the previous value
-      const previousLists = queryClient.getQueryData(["/api/lists"]);
-      
-      // Optimistically update to the new value
-      if (list && previousLists) {
-        const updatedLists = (previousLists as any[]).map(l => 
-          l.id === list.id 
-            ? { ...l, items: l.items.filter((_: any, i: number) => i !== index) }
-            : l
+    onSuccess: (updatedList, index) => {
+      // Immediately set the updated data from server response
+      queryClient.setQueryData(["/api/lists"], (prevLists: any) => {
+        if (!prevLists) return prevLists;
+        return prevLists.map((l: any) => 
+          l.id === list?.id ? updatedList : l
         );
-        queryClient.setQueryData(["/api/lists"], updatedLists);
-      }
+      });
       
-      return { previousLists };
-    },
-    onSuccess: (_, index) => {
-      if (!list) return;
-      const lockKey = `${list.id}-${index}`;
-      
-      // Remove from both lock and state
+      const lockKey = `${list?.id}-${index}`;
       deletionLockRef.current.delete(lockKey);
       setDeletingItems(prev => {
         const newSet = new Set(prev);
@@ -99,20 +80,9 @@ export default function List1() {
         title: "حُذف العنصر بنجاح",
         duration: 1500,
       });
-      
-      // Refetch to ensure consistency with server
-      queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
     },
-    onError: (error: Error, index, context) => {
-      // Rollback on error
-      if (context?.previousLists) {
-        queryClient.setQueryData(["/api/lists"], context.previousLists);
-      }
-      
-      if (!list) return;
-      const lockKey = `${list.id}-${index}`;
-      
-      // Remove from both lock and state on error
+    onError: (error: Error, index) => {
+      const lockKey = `${list?.id}-${index}`;
       deletionLockRef.current.delete(lockKey);
       setDeletingItems(prev => {
         const newSet = new Set(prev);

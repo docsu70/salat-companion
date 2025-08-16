@@ -29,9 +29,13 @@ export default function List3() {
       });
       return await response.json();
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
-      queryClient.refetchQueries({ queryKey: ["/api/lists"] });
+    onSuccess: (updatedList) => {
+      queryClient.setQueryData(["/api/lists"], (prevLists: any) => {
+        if (!prevLists) return prevLists;
+        return prevLists.map((l: any) => 
+          l.id === list?.id ? updatedList : l
+        );
+      });
       setNewItem("");
       toast({
         title: "تم الإضافة",
@@ -51,29 +55,18 @@ export default function List3() {
   const removeItemMutation = useMutation({
     mutationFn: async (index: number) => {
       if (!list) throw new Error("List not found");
-      
-      // Validate index before making request
-      if (index < 0 || index >= list.items.length) {
-        throw new Error("Invalid item index");
-      }
-      
       const response = await apiRequest("DELETE", `/api/lists/${list.id}/items/${index}`);
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to delete item");
-      }
-      
       return await response.json();
     },
-    onMutate: (index: number) => {
-      // This will be handled in handleRemoveItem to prevent double-setting
-    },
-    onSuccess: (_, index) => {
-      if (!list) return;
-      const lockKey = `${list.id}-${index}`;
+    onSuccess: (updatedList, index) => {
+      queryClient.setQueryData(["/api/lists"], (prevLists: any) => {
+        if (!prevLists) return prevLists;
+        return prevLists.map((l: any) => 
+          l.id === list?.id ? updatedList : l
+        );
+      });
       
-      // Remove from both lock and state
+      const lockKey = `${list?.id}-${index}`;
       deletionLockRef.current.delete(lockKey);
       setDeletingItems(prev => {
         const newSet = new Set(prev);
@@ -85,8 +78,6 @@ export default function List3() {
         description: "تم حذف العنصر بنجاح",
         duration: 1000,
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
-      queryClient.refetchQueries({ queryKey: ["/api/lists"] });
     },
     onError: (error: Error, index) => {
       if (!list) return;
