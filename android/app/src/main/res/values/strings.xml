@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">رفيق الصلاة</string>
+    <string name="title_activity_main">رفيق الصلاة</string>
+    <string name="package_name">com.salatcompanion.app</string>
+    <string name="custom_url_scheme">com.salatcompanion.app</string>
+</resources>
