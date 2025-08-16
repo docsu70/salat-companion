@@ -36,6 +36,7 @@ export default function List3() {
           l.id === list?.id ? updatedList : l
         );
       });
+      queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
       setNewItem("");
       toast({
         title: "تم الإضافة",
@@ -65,6 +66,7 @@ export default function List3() {
           l.id === list?.id ? updatedList : l
         );
       });
+      queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
       
       const lockKey = `${list?.id}-${index}`;
       deletionLockRef.current.delete(lockKey);

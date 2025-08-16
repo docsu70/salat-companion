@@ -30,13 +30,15 @@ export default function List1() {
       return await response.json();
     },
     onSuccess: (updatedList) => {
-      // Immediately set the updated data from server response
+      // Force cache invalidation and immediate refetch
       queryClient.setQueryData(["/api/lists"], (prevLists: any) => {
         if (!prevLists) return prevLists;
         return prevLists.map((l: any) => 
           l.id === list?.id ? updatedList : l
         );
       });
+      // Force immediate refetch to ensure UI consistency
+      queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
       setNewItem("");
       toast({
         title: "أُضيف العنصر بنجاح",
@@ -61,13 +63,15 @@ export default function List1() {
       return result;
     },
     onSuccess: (updatedList, index) => {
-      // Immediately set the updated data from server response
+      // Force cache invalidation and immediate refetch
       queryClient.setQueryData(["/api/lists"], (prevLists: any) => {
         if (!prevLists) return prevLists;
         return prevLists.map((l: any) => 
           l.id === list?.id ? updatedList : l
         );
       });
+      // Force immediate refetch to ensure UI consistency
+      queryClient.invalidateQueries({ queryKey: ["/api/lists"] });
       
       const lockKey = `${list?.id}-${index}`;
       deletionLockRef.current.delete(lockKey);
