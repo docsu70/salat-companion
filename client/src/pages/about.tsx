@@ -32,7 +32,7 @@ export default function About() {
       <div className="text-right mb-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-4">حول رفيق الصلاة</h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">رفيق الصلاة تطبيق بسيط صُمم لمساعدة المستخدم في اختيار سور وآيات للصلاة أو للحفظ والمراجعة</p>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">التطبيق يقترح عليك سورًا وآيات من قوائمك المخصصة لتقرأها في الصلاة لتفادي تكرار نفس السور القصيرة وليساعدك على مداومة مراجعة السور والآيات التي تحفظها
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">استخدم التطبيق في أوقات الصلاة لتفادي تكرار نفس السور القصيرة وليساعدك على مداومة مراجعة السور والآيات التي تحفظها
         </p>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto"> نسعد بتلقي ملاحظاتكم لتحسين هذا التطبيق
           
@@ -91,6 +91,7 @@ export default function About() {
       {/* Contact/Support */}
       <p className="text-center text-gray-700 leading-relaxed">
         نسأل الله أن يجعل هذا العمل خالصاً لوجهه الكريم، وأن ينفع به كل من استخدمه  
+        <span className="text-gray-500 mt-2 block text-[17px] font-semibold">﴿فَٱقْرَءُواْ مَا تَيَسَّرَ مِنَ ٱلْقُرْءَانِ﴾</span>
       </p>
     </div>
   );

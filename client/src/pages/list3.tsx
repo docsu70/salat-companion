@@ -178,19 +178,7 @@ export default function List3() {
         <p className="text-gray-600 text-sm">أضف أو احذف سور/آيات  </p>
       </div>
 
-      {/* List Header */}
-      <div className="flex items-center space-x-2 space-x-reverse mb-3">
-        <div className="bg-purple-100 rounded-lg p-2">
-          <BookOpen className="h-5 w-5 text-purple-600" />
-        </div>
-        <div>
-          <h3 className="text-base font-semibold text-gray-900">أيات مقترحة للحفظ</h3>
-          <p className="text-xs text-gray-500">
-            {list.items.length} آية
-          </p>
-        </div>
-      </div>
-      
+
       <Card className="shadow-sm border border-gray-200">
         <CardHeader className="pb-3 border-b border-gray-200">
           {/* Add Item Form */}
