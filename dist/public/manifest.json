@@ -1,0 +1,35 @@
+{
+  "name": "رفيق الصلاة - Salat Companion",
+  "short_name": "رفيق الصلاة",
+  "description": "تطبيق شامل لإدارة وتنظيم الآيات القرآنية ومساعدة المسلمين في حفظ ومراجعة كلام الله العزيز",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ecf1f5",
+  "theme_color": "#004d66",
+  "orientation": "portrait",
+  "categories": ["education", "lifestyle", "productivity"],
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/app-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/app-logo.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "375x812",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}
